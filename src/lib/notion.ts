@@ -1,5 +1,7 @@
 import { Client } from '@notionhq/client'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import { unstable_cache } from 'next/cache'
+import { isNotionNotFound } from '@/lib/utils/error'
 
 /**
  * 견적서 항목 타입 정의
@@ -157,7 +159,14 @@ export async function getInvoiceByPageId(
   const notion = createNotionClient()
 
   try {
-    const page = await notion.pages.retrieve({ page_id: pageId })
+    // 10초 타임아웃 적용
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('TIMEOUT')), 10000)
+    )
+    const page = await Promise.race([
+      notion.pages.retrieve({ page_id: pageId }),
+      timeoutPromise,
+    ])
 
     if (!isFullPage(page)) {
       return null
@@ -209,27 +218,27 @@ export async function getInvoiceByPageId(
 
     return invoice
   } catch (error) {
-    // Notion API 오류 처리 (페이지 없음, 권한 없음, 잘못된 ID 형식 등)
-    if (error instanceof Error) {
-      const msg = error.message
-      if (
-        msg.includes('Could not find page') ||
-        msg.includes('object_not_found') ||
-        msg.includes('unauthorized') ||
-        msg.includes('validation_error') ||
-        msg.includes('Invalid') ||
-        msg.includes('path could not be resolved')
-      ) {
-        return null
-      }
-    }
-    // APIResponseError의 status 코드로도 처리 (400, 404)
-    const apiError = error as { status?: number }
-    if (apiError.status === 400 || apiError.status === 404) {
+    // 페이지 없음 / 권한 없음 / 잘못된 ID 등의 에러는 null 반환
+    if (isNotionNotFound(error)) {
       return null
     }
     throw error
   }
+}
+
+/**
+ * 캐시가 적용된 견적서 조회 함수
+ * 동일 페이지 요청 시 5분간 캐시된 결과를 반환합니다.
+ * @param pageId - Notion 페이지 ID
+ */
+export async function getCachedInvoiceByPageId(
+  pageId: string
+): Promise<Invoice | null> {
+  const cachedFn = unstable_cache(getInvoiceByPageId, ['invoice', pageId], {
+    tags: [`invoice-${pageId}`],
+    revalidate: 300,
+  })
+  return cachedFn(pageId)
 }
 
 /**

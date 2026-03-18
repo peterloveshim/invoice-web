@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { getInvoiceByPageId } from '@/lib/notion'
+import { getCachedInvoiceByPageId } from '@/lib/notion'
 import { InvoicePage as InvoicePageComponent } from '@/components/invoice/invoice-page'
 
 /**
@@ -20,7 +20,7 @@ export async function generateMetadata({
   params,
 }: InvoicePageProps): Promise<Metadata> {
   const { notionPageId } = await params
-  const invoice = await getInvoiceByPageId(notionPageId)
+  const invoice = await getCachedInvoiceByPageId(notionPageId)
 
   if (!invoice) {
     return {
@@ -44,7 +44,7 @@ export default async function Page({ params }: InvoicePageProps) {
   const { notionPageId } = await params
 
   // Notion API에서 견적서 데이터 조회
-  const invoice = await getInvoiceByPageId(notionPageId)
+  const invoice = await getCachedInvoiceByPageId(notionPageId)
 
   // 견적서가 없으면 404 페이지 표시
   if (!invoice) {
