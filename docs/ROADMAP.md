@@ -22,13 +22,13 @@
 
 ## 전체 타임라인
 
-| 단계 | 기간 | 핵심 목표 | 상태 |
-|------|------|-----------|------|
-| Phase 1: 환경 설정 및 기반 구축 | 1주차 | 프로젝트 초기 설정, Notion API 연동 기반 | 대기 |
+| 단계                                | 기간  | 핵심 목표                                      | 상태 |
+| ----------------------------------- | ----- | ---------------------------------------------- | ---- |
+| Phase 1: 환경 설정 및 기반 구축     | 1주차 | 프로젝트 초기 설정, Notion API 연동 기반       | 대기 |
 | Phase 2: 공통 모듈 및 컴포넌트 구축 | 2주차 | 공유 유틸, 타입, shadcn/ui 설치, 공통 컴포넌트 | 대기 |
-| Phase 3: 견적서 조회 기능 구현 | 3주차 | 견적서 페이지 렌더링, 유효성 검증, 반응형 UI | 대기 |
-| Phase 4: PDF 다운로드 기능 구현 | 4주차 | PDF 생성 API 및 다운로드 플로우 완성 | 대기 |
-| Phase 5: 품질 개선 및 배포 | 5주차 | 성능 최적화, 에러 처리 강화, Vercel 배포 | 대기 |
+| Phase 3: 견적서 조회 기능 구현      | 3주차 | 견적서 페이지 렌더링, 유효성 검증, 반응형 UI   | 대기 |
+| Phase 4: PDF 다운로드 기능 구현     | 4주차 | PDF 생성 API 및 다운로드 플로우 완성           | 대기 |
+| Phase 5: 품질 개선 및 배포          | 5주차 | 성능 최적화, 에러 처리 강화, Vercel 배포       | 대기 |
 
 ---
 
@@ -48,16 +48,19 @@
 ### 기술 태스크
 
 **의존성 설치**
+
 - [ ] `@notionhq/client` 설치 및 TypeScript 타입 확인
 - [ ] `@react-pdf/renderer` 설치 및 버전 호환성 확인 (React 19)
 - [ ] `lucide-react` 아이콘 라이브러리 설치 확인 (shadcn/ui 기본 포함 여부 점검)
 
 **환경 변수 설정**
+
 - [ ] `.env.local` 파일 생성 및 `NOTION_API_KEY`, `NOTION_DATABASE_ID` 변수 정의
 - [ ] `.env.example` 파일 생성 (키 값 제외, 키 이름만 포함)
 - [ ] `next.config.ts`에서 환경 변수 접근 가능 여부 확인
 
 **Notion API 기반 구축**
+
 - [ ] `src/lib/notion.ts` 파일 생성 — `@notionhq/client` Client 인스턴스 싱글톤 패턴 구현
 - [ ] Notion 견적서 데이터 타입 정의 (`src/types/invoice.ts`): `Invoice`, `InvoiceItem` 인터페이스 정의
 - [ ] `src/lib/notion.ts`에 `getInvoiceById(pageId: string)` 함수 구현 — `notion.pages.retrieve` + `notion.blocks.children.list` 호출
@@ -65,6 +68,7 @@
 - [ ] Notion API 응답을 `Invoice` 타입으로 변환하는 매핑 유틸 함수 작성 (`mapNotionPageToInvoice`)
 
 **프로젝트 구조 설계**
+
 - [ ] `src/app/invoice/[notionPageId]/` 디렉토리 및 `page.tsx` 파일 생성
 - [ ] `src/components/invoice/` 디렉토리 생성 (견적서 관련 컴포넌트 경로)
 - [ ] `src/components/pdf/` 디렉토리 생성 (PDF 관련 컴포넌트 경로)
@@ -109,15 +113,18 @@
 ### 기술 태스크
 
 **공통 유틸리티 함수**
+
 - [ ] `src/lib/utils/format.ts` 생성 — `formatCurrency(amount: number): string` (한국 원화, `Intl.NumberFormat` 활용), `formatDate(date: string): string` 구현
 - [ ] `src/lib/utils/error.ts` 생성 — `isNotionNotFound(error: unknown): boolean`, `parseNotionError(error: unknown): string` 구현
 - [ ] `src/lib/utils/env.ts` 생성 — 환경 변수 유효성 검증 함수 (`assertEnv(key: string): string`) 구현, 미설정 시 명확한 에러 메시지 출력
 
 **공통 타입 정의 확장**
+
 - [ ] `src/types/api.ts` 생성 — `ApiResponse<T>`, `ApiError` 인터페이스 정의
 - [ ] `src/types/common.ts` 생성 — `LoadingState`, `ErrorState` 등 공통 상태 타입 정의
 
 **shadcn/ui 컴포넌트 일괄 설치**
+
 - [ ] `npx shadcn@latest add button` — 다운로드 버튼, 범용 버튼
 - [ ] `npx shadcn@latest add badge` — 견적서 상태 배지
 - [ ] `npx shadcn@latest add table` — 견적서 항목 테이블
@@ -125,6 +132,7 @@
 - [ ] `npx shadcn@latest add sonner` — 에러/성공 토스트 알림
 
 **공통 UI 컴포넌트**
+
 - [ ] `src/components/common/LoadingSpinner.tsx` 구현 — 버튼 내 인라인 스피너 및 페이지 레벨 로딩 표시
 - [ ] `src/components/common/ErrorMessage.tsx` 구현 — 에러 메시지 표시 컴포넌트 (아이콘 + 메시지 + 재시도 버튼 옵션)
 - [ ] `src/components/common/InvoiceSkeleton.tsx` 구현 — 견적서 페이지 전용 스켈레톤 레이아웃 (shadcn/ui Skeleton 활용)
@@ -172,12 +180,14 @@
 ### 기술 태스크
 
 **견적서 조회 페이지 (Server Component)**
+
 - [ ] `app/invoice/[notionPageId]/page.tsx`를 async Server Component로 구현
 - [ ] `params.notionPageId`로 `getInvoiceById` 호출 및 데이터 페칭
 - [ ] Notion API 404/에러 응답 처리 — `notFound()` 함수 호출로 Next.js 404 페이지 렌더링
 - [ ] `generateMetadata` 함수 구현 — 견적서 번호 기반 페이지 타이틀 동적 설정
 
 **견적서 UI 컴포넌트**
+
 - [ ] `src/components/invoice/InvoiceHeader.tsx` 구현 — 견적서 번호, 발행일, 유효기간, 상태 배지(shadcn/ui Badge) 표시
 - [ ] `src/components/invoice/InvoiceParties.tsx` 구현 — 발행자 정보(회사명, 사업자번호 등)와 클라이언트명 2열 레이아웃
 - [ ] `src/components/invoice/InvoiceItemsTable.tsx` 구현 — 항목명·수량·단가·금액 테이블 (shadcn/ui Table 컴포넌트 활용)
@@ -185,10 +195,12 @@
 - [ ] `src/components/invoice/InvoicePage.tsx` 구현 — 위 컴포넌트를 조합한 견적서 전체 레이아웃 컴포넌트
 
 **에러 처리**
+
 - [ ] `app/invoice/[notionPageId]/not-found.tsx` 생성 — "견적서를 찾을 수 없습니다" 안내 메시지, 발행자에게 문의하도록 가이드 텍스트 포함
 - [ ] `app/error.tsx` 또는 `app/invoice/[notionPageId]/error.tsx` 생성 — Notion API 네트워크 에러 등 예외 상황 처리
 
 **반응형 레이아웃**
+
 - [ ] 모바일(320px~): 단열 레이아웃, 텍스트 크기 축소, 테이블 가로 스크롤
 - [ ] 태블릿(768px~): 2열 레이아웃 적용 (발행자/클라이언트 섹션)
 - [ ] 데스크톱(1024px~): 최대 너비 제한(max-w-4xl), 중앙 정렬, 여백 확보
@@ -235,6 +247,7 @@
 ### 기술 태스크
 
 **PDF 생성 API Route**
+
 - [ ] `app/api/invoice/[notionPageId]/pdf/route.ts` 생성 — GET 요청 처리
 - [ ] API Route 내에서 `getInvoiceById` 호출로 노션 데이터 조회
 - [ ] `@react-pdf/renderer`의 `renderToBuffer` 또는 `pdf().toBlob()` 활용하여 PDF 생성
@@ -242,6 +255,7 @@
 - [ ] 존재하지 않는 ID 요청 시 404 응답 반환
 
 **PDF 레이아웃 컴포넌트**
+
 - [ ] `src/components/pdf/InvoicePDF.tsx` 생성 — `@react-pdf/renderer`의 `Document`, `Page`, `View`, `Text`, `StyleSheet` 활용
 - [ ] PDF 헤더 섹션: 견적서 번호, 발행일, 유효기간
 - [ ] PDF 발행자/클라이언트 섹션: 2열 레이아웃
@@ -250,6 +264,7 @@
 - [ ] 한글 폰트 내장 설정 (`Font.register` 활용, Noto Sans KR 또는 Pretendard 폰트 적용)
 
 **다운로드 버튼 (Client Component)**
+
 - [ ] `src/components/invoice/PdfDownloadButton.tsx` Client Component 구현
 - [ ] 버튼 클릭 시 `/api/invoice/[notionPageId]/pdf` 엔드포인트 fetch 호출
 - [ ] Blob 응답을 받아 `URL.createObjectURL` + `<a>` 태그로 파일 다운로드 트리거
@@ -301,26 +316,31 @@
 ### 기술 태스크
 
 **성능 최적화**
+
 - [ ] Server Component의 Notion API 호출에 Next.js `cache()` 또는 `unstable_cache` 적용 — 동일 페이지 중복 요청 방지
 - [ ] `app/invoice/[notionPageId]/loading.tsx` 생성 — Phase 2에서 구현한 `InvoiceSkeleton` 컴포넌트 활용
 
 **에러 처리 강화**
+
 - [ ] Notion API 타임아웃 처리 — `AbortController`를 활용한 요청 타임아웃 설정 (10초)
 - [ ] Notion API 응답의 속성 누락 케이스 처리 — 옵셔널 체이닝과 기본값 적용
 - [ ] 환경 변수 미설정 시 빌드 단계에서 명확한 에러 메시지 출력
 
 **접근성 개선**
+
 - [ ] 인쇄 최적화 CSS 추가 (`@media print`) — 다운로드 버튼 숨김, 여백 조정
 - [ ] 금액 테이블에 `aria-label` 속성 추가
 - [ ] 색상 대비 WCAG AA 기준 충족 확인
 
 **Vercel 배포**
+
 - [ ] Vercel 프로젝트 생성 및 GitHub 저장소 연결
 - [ ] Vercel 대시보드에서 환경 변수 설정 (`NOTION_API_KEY`, `NOTION_DATABASE_ID`)
 - [ ] 프로덕션 URL 확인 및 실제 노션 데이터와 연동 테스트
 - [ ] `vercel.json` 설정 파일 생성 (필요 시 — 리전, 함수 타임아웃 등)
 
 **최종 검수**
+
 - [ ] MVP 성공 기준 5가지 전항목 수동 테스트 완료
 - [ ] 모바일(iOS Safari, Android Chrome), 데스크톱(Chrome, Firefox, Safari) 크로스 브라우저 테스트
 - [ ] 노션 데이터베이스에 테스트 견적서 2~3개 작성 후 전체 플로우 검증
@@ -379,14 +399,14 @@ MVP 이후 사용자 피드백을 수집한 후 우선순위를 재평가하여 
 
 ## 리스크 및 의존성
 
-| 리스크 | 영향도 | 대응 방안 |
-|--------|--------|-----------|
-| `@react-pdf/renderer`의 React 19 호환성 미검증 | 높음 | 설치 즉시 간단한 PDF 생성 테스트 수행; 비호환 시 Puppeteer(서버사이드 HTML→PDF) 대안 검토 |
-| Notion API 응답 지연 (P99 ~2초) | 중간 | Next.js `unstable_cache`로 응답 캐싱, `loading.tsx` 스켈레톤으로 UX 보완 |
-| PDF 내 한글 폰트 깨짐 | 중간 | Phase 3 초반에 폰트 내장 테스트 우선 수행; 폰트 파일은 `public/fonts/`에 정적 호스팅 |
-| Notion API 무료 플랜 Rate Limit (초당 3회) | 낮음 | 캐싱으로 중복 요청 최소화; 트래픽 급증 시 Redis 캐시 도입 검토 |
-| Vercel Serverless Function 실행 시간 초과 | 낮음 | PDF 생성 API 타임아웃 기본값(10초) 확인; `vercel.json`에서 `maxDuration` 설정 증가 |
-| 노션 데이터베이스 스키마 변경 | 낮음 | 매핑 유틸 함수(`mapNotionPageToInvoice`)를 단일 파일로 격리하여 변경 영향 최소화 |
+| 리스크                                         | 영향도 | 대응 방안                                                                                 |
+| ---------------------------------------------- | ------ | ----------------------------------------------------------------------------------------- |
+| `@react-pdf/renderer`의 React 19 호환성 미검증 | 높음   | 설치 즉시 간단한 PDF 생성 테스트 수행; 비호환 시 Puppeteer(서버사이드 HTML→PDF) 대안 검토 |
+| Notion API 응답 지연 (P99 ~2초)                | 중간   | Next.js `unstable_cache`로 응답 캐싱, `loading.tsx` 스켈레톤으로 UX 보완                  |
+| PDF 내 한글 폰트 깨짐                          | 중간   | Phase 3 초반에 폰트 내장 테스트 우선 수행; 폰트 파일은 `public/fonts/`에 정적 호스팅      |
+| Notion API 무료 플랜 Rate Limit (초당 3회)     | 낮음   | 캐싱으로 중복 요청 최소화; 트래픽 급증 시 Redis 캐시 도입 검토                            |
+| Vercel Serverless Function 실행 시간 초과      | 낮음   | PDF 생성 API 타임아웃 기본값(10초) 확인; `vercel.json`에서 `maxDuration` 설정 증가        |
+| 노션 데이터베이스 스키마 변경                  | 낮음   | 매핑 유틸 함수(`mapNotionPageToInvoice`)를 단일 파일로 격리하여 변경 영향 최소화          |
 
 ---
 

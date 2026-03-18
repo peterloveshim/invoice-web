@@ -130,7 +130,12 @@ async function getInvoiceItems(
         const unitPrice = extractNumber(props['단가'] ?? props['Unit Price'])
         const amount = quantity * unitPrice
 
-        return { description, quantity, unitPrice, amount } satisfies InvoiceItem
+        return {
+          description,
+          quantity,
+          unitPrice,
+          amount,
+        } satisfies InvoiceItem
       } catch {
         // 개별 항목 조회 실패 시 skip
         return null
@@ -189,8 +194,7 @@ export async function getInvoiceByPageId(
       issueDate: extractDate(properties['발행일'] ?? properties['Issue Date']),
       dueDate: extractDate(properties['만료일'] ?? properties['Due Date']),
       items: await (async () => {
-        const relationProp =
-          properties['항목'] ?? properties['Items']
+        const relationProp = properties['항목'] ?? properties['Items']
         if (relationProp?.type === 'relation') {
           return getInvoiceItems(relationProp.relation.map(r => r.id))
         }
