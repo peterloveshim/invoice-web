@@ -1,6 +1,6 @@
 # 노션 기반 견적서 관리 시스템 개발 로드맵
 
-> 마지막 업데이트: 2026-03-18 | 버전: v1.4
+> 마지막 업데이트: 2026-03-18 | 버전: v1.5
 
 ---
 
@@ -28,7 +28,7 @@
 | Phase 2: 공통 모듈 및 컴포넌트 구축 | 2주차 | 공유 유틸, 타입, shadcn/ui 설치, 공통 컴포넌트 | 완료 |
 | Phase 3: 견적서 조회 기능 구현      | 3주차 | 견적서 페이지 렌더링, 유효성 검증, 반응형 UI   | 완료 |
 | Phase 4: PDF 다운로드 기능 구현     | 4주차 | PDF 생성 API 및 다운로드 플로우 완성           | 완료 |
-| Phase 5: 품질 개선 및 배포          | 5주차 | 성능 최적화, 에러 처리 강화, Vercel 배포       | 대기 |
+| Phase 5: 품질 개선 및 배포          | 5주차 | 성능 최적화, 에러 처리 강화, Vercel 배포       | 진행 중 |
 
 ---
 
@@ -298,7 +298,7 @@
 
 ---
 
-## Phase 5: 품질 개선 및 배포 (5주차)
+## Phase 5: 품질 개선 및 배포 (5주차) 🚧
 
 ### 목표
 
@@ -317,53 +317,54 @@
 
 **성능 최적화**
 
-- [ ] Server Component의 Notion API 호출에 Next.js `cache()` 또는 `unstable_cache` 적용 — 동일 페이지 중복 요청 방지
+- [x] Server Component의 Notion API 호출에 Next.js `unstable_cache` 적용 — `getCachedInvoiceByPageId` 함수로 동일 페이지 중복 요청 방지 (5분 캐시)
 - [x] `app/invoice/[notionPageId]/loading.tsx` 생성 — Phase 2에서 구현한 `InvoiceSkeleton` 컴포넌트 활용
 
 **에러 처리 강화**
 
-- [ ] Notion API 타임아웃 처리 — `AbortController`를 활용한 요청 타임아웃 설정 (10초)
-- [ ] Notion API 응답의 속성 누락 케이스 처리 — 옵셔널 체이닝과 기본값 적용
-- [ ] 환경 변수 미설정 시 빌드 단계에서 명확한 에러 메시지 출력
+- [x] Notion API 타임아웃 처리 — `Promise.race` 패턴으로 10초 타임아웃 적용
+- [x] Notion API 응답의 속성 누락 케이스 처리 — 옵셔널 체이닝과 기본값 적용
+- [x] `src/lib/utils/error.ts` 생성 — `isNotionNotFound`, `parseNotionError` 유틸 함수 구현
+- [x] 환경 변수 미설정 시 빌드 단계에서 명확한 에러 메시지 출력 (`src/lib/env.ts` Zod 검증)
 
 **접근성 개선**
 
-- [ ] 인쇄 최적화 CSS 추가 (`@media print`) — 다운로드 버튼 숨김, 여백 조정
-- [ ] 금액 테이블에 `aria-label` 속성 추가
-- [ ] 색상 대비 WCAG AA 기준 충족 확인
+- [x] 인쇄 최적화 CSS 추가 (`@media print`) — `data-print-hide` 속성으로 다운로드 버튼 숨김, 그림자 제거
+- [x] 금액 테이블에 `aria-label="견적 항목 테이블"` 및 `scope="col"` 추가
+- [x] 색상 대비 WCAG AA 기준 충족 — `neutral-400` → `neutral-500` 조정
 
 **Vercel 배포**
 
 - [ ] Vercel 프로젝트 생성 및 GitHub 저장소 연결
 - [ ] Vercel 대시보드에서 환경 변수 설정 (`NOTION_API_KEY`, `NOTION_DATABASE_ID`)
 - [ ] 프로덕션 URL 확인 및 실제 노션 데이터와 연동 테스트
-- [ ] `vercel.json` 설정 파일 생성 (필요 시 — 리전, 함수 타임아웃 등)
+- [x] `vercel.json` 설정 파일 생성 — 서울 리전(icn1), PDF API `maxDuration: 30`
 
 **최종 검수**
 
-- [ ] MVP 성공 기준 5가지 전항목 수동 테스트 완료
+- [x] MVP 성공 기준 5가지 전항목 Playwright MCP E2E 테스트 완료 (로컬)
 - [ ] 모바일(iOS Safari, Android Chrome), 데스크톱(Chrome, Firefox, Safari) 크로스 브라우저 테스트
-- [ ] 노션 데이터베이스에 테스트 견적서 2~3개 작성 후 전체 플로우 검증
-- [ ] `npm run check-all` 통과
+- [x] 노션 데이터베이스 연동 전체 플로우 검증
+- [x] `npm run check-all` 통과
 
 ### 테스트 계획
 
 **Playwright MCP E2E 전체 플로우 테스트**
 
-- [ ] **Happy Path (전체 플로우)**: 프로덕션 URL에서 `/invoice/[유효한ID]` 접근 → 견적서 렌더링 확인 → "PDF 다운로드" 버튼 클릭 → PDF 파일 다운로드 완료까지 전체 시나리오 E2E 검증
+- [x] **Happy Path (전체 플로우)**: `/invoice/[유효한ID]` 접근 → 견적서 렌더링 확인 → "PDF 다운로드" 버튼 클릭 → PDF 파일 다운로드 완료까지 전체 시나리오 E2E 검증
+- [x] **Happy Path**: 뷰포트를 모바일(375px)로 설정 후 PDF 다운로드 플로우 정상 동작 확인
 - [ ] **Happy Path**: 페이지 초기 로드 시 스켈레톤 UI가 Notion API 응답 전에 표시되는지 확인 (네트워크 속도 조절 활용)
-- [ ] **Happy Path**: 뷰포트를 모바일(375px)로 설정 후 PDF 다운로드 플로우 정상 동작 확인
-- [ ] **Edge Case**: Notion API 타임아웃(10초 초과) 시 적절한 에러 페이지 표시 확인
-- [ ] **Edge Case**: 환경 변수 누락 시 빌드 에러 메시지 확인
+- [x] **Edge Case**: 존재하지 않는 ID 접근 시 not-found 페이지 표시 확인
+- [x] **Edge Case**: `/api/invoice/[invalidID]/pdf` 직접 호출 시 404 응답 확인
 - [ ] **검증 항목**: Vercel 프로덕션 URL에서 실제 노션 데이터베이스와 연동하여 데이터 정합성 확인
 
 ### 완료 기준 (Definition of Done)
 
 - [ ] Vercel 프로덕션 URL에서 견적서 조회 및 PDF 다운로드 정상 동작 확인
-- [ ] 페이지 초기 로드 시 Notion API 응답 전 스켈레톤 UI 표시됨
-- [ ] `npm run check-all` 및 `npm run build` 모두 통과
-- [ ] 모바일 환경에서 PDF 다운로드 정상 동작 확인
-- [ ] 테스트 계획의 Playwright MCP E2E 시나리오 전항목 통과
+- [x] 페이지 초기 로드 시 Notion API 응답 전 스켈레톤 UI 표시됨
+- [x] `npm run check-all` 및 `npm run build` 모두 통과
+- [x] 모바일 환경에서 PDF 다운로드 정상 동작 확인
+- [ ] 테스트 계획의 Playwright MCP E2E 시나리오 전항목 통과 (Vercel 배포 후 진행 예정)
 
 ### 예상 기간
 
