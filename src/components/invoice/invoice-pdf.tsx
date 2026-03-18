@@ -1,4 +1,11 @@
-import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer'
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Font,
+} from '@react-pdf/renderer'
 import path from 'path'
 import type { Invoice } from '@/lib/notion'
 

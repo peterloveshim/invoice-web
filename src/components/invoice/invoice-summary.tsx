@@ -55,8 +55,10 @@ export function InvoiceSummary({
       {/* 비고 섹션 - notes가 있을 경우에만 표시 */}
       {notes && (
         <div className="rounded-none border border-neutral-200 bg-neutral-50 p-4">
-          <h3 className="text-xs uppercase tracking-widest text-neutral-500">비고</h3>
-          <p className="mt-1 whitespace-pre-wrap text-sm text-gray-600">
+          <h3 className="text-xs tracking-widest text-neutral-500 uppercase">
+            비고
+          </h3>
+          <p className="mt-1 text-sm whitespace-pre-wrap text-gray-600">
             {notes}
           </p>
         </div>

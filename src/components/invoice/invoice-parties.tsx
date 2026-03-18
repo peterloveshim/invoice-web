@@ -13,18 +13,25 @@ interface InvoicePartiesProps {
  * 견적서 발급처 및 수신처 정보 컴포넌트
  * 반응형 2열 그리드 레이아웃으로 발급처와 수신처 정보를 나란히 표시합니다.
  */
-export function InvoiceParties({ clientName, clientEmail }: InvoicePartiesProps) {
+export function InvoiceParties({
+  clientName,
+  clientEmail,
+}: InvoicePartiesProps) {
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
       {/* 발급처 정보 */}
       <div className="border-l-2 border-neutral-900 pl-3">
-        <h2 className="text-xs uppercase tracking-widest text-neutral-400">발급처</h2>
+        <h2 className="text-xs tracking-widest text-neutral-400 uppercase">
+          발급처
+        </h2>
         <p className="mt-1 text-base font-bold text-neutral-900">귀하</p>
       </div>
 
       {/* 수신처 정보 */}
       <div className="border-l-2 border-neutral-900 pl-3">
-        <h2 className="text-xs uppercase tracking-widest text-neutral-400">수신처</h2>
+        <h2 className="text-xs tracking-widest text-neutral-400 uppercase">
+          수신처
+        </h2>
         <p className="mt-1 text-base font-bold text-neutral-900">
           {clientName}
         </p>

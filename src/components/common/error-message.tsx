@@ -20,7 +20,12 @@ export function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
 
       {/* 재시도 버튼: onRetry가 있을 경우에만 렌더링 */}
       {onRetry && (
-        <Button variant="outline" size="sm" className="rounded-none" onClick={onRetry}>
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-none"
+          onClick={onRetry}
+        >
           다시 시도
         </Button>
       )}

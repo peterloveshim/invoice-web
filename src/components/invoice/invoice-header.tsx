@@ -46,27 +46,44 @@ export function InvoiceHeader({
     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
       {/* 좌측: 견적서 제목 및 번호 */}
       <div>
-        <h1 className="text-4xl font-black tracking-tight text-neutral-900">견적서</h1>
-        <p className="mt-2 font-mono text-sm uppercase tracking-widest text-neutral-400">#{invoiceNumber}</p>
+        <h1 className="text-4xl font-black tracking-tight text-neutral-900">
+          견적서
+        </h1>
+        <p className="mt-2 font-mono text-sm tracking-widest text-neutral-400 uppercase">
+          #{invoiceNumber}
+        </p>
       </div>
 
       {/* 우측: 상태 뱃지 및 날짜 정보 */}
       <div className="flex flex-col items-start gap-3 sm:items-end">
         {/* 상태 뱃지 */}
-        <Badge variant={currentStatus.variant} className="rounded-none text-xs uppercase tracking-wider">{currentStatus.label}</Badge>
+        <Badge
+          variant={currentStatus.variant}
+          className="rounded-none text-xs tracking-wider uppercase"
+        >
+          {currentStatus.label}
+        </Badge>
 
         {/* 날짜 정보 목록 */}
         <dl className="space-y-1 text-sm">
           {/* 발행일 */}
           <div className="flex gap-2 sm:justify-end">
-            <dt className="text-xs uppercase tracking-widest text-neutral-400">발행일</dt>
-            <dd className="font-medium text-neutral-700">{formatDate(issueDate)}</dd>
+            <dt className="text-xs tracking-widest text-neutral-400 uppercase">
+              발행일
+            </dt>
+            <dd className="font-medium text-neutral-700">
+              {formatDate(issueDate)}
+            </dd>
           </div>
 
           {/* 유효기간 */}
           <div className="flex gap-2 sm:justify-end">
-            <dt className="text-xs uppercase tracking-widest text-neutral-400">유효기간</dt>
-            <dd className="font-medium text-neutral-700">{formatDate(dueDate)}</dd>
+            <dt className="text-xs tracking-widest text-neutral-400 uppercase">
+              유효기간
+            </dt>
+            <dd className="font-medium text-neutral-700">
+              {formatDate(dueDate)}
+            </dd>
           </div>
         </dl>
       </div>
