@@ -105,6 +105,43 @@ function extractSelect(
 }
 
 /**
+ * Relation 프로퍼티로 연결된 견적 항목 페이지들을 조회합니다.
+ * @param relationPageIds - 항목 페이지 ID 배열
+ * @returns 견적 항목 배열
+ */
+async function getInvoiceItems(
+  relationPageIds: string[]
+): Promise<InvoiceItem[]> {
+  if (relationPageIds.length === 0) return []
+
+  const notion = createNotionClient()
+
+  const results = await Promise.all(
+    relationPageIds.map(async id => {
+      try {
+        const page = await notion.pages.retrieve({ page_id: id })
+        if (!isFullPage(page)) return null
+
+        const props = page.properties
+        const description = extractText(
+          props['항목명'] ?? props['Description'] ?? props['Name']
+        )
+        const quantity = extractNumber(props['수량'] ?? props['Quantity'])
+        const unitPrice = extractNumber(props['단가'] ?? props['Unit Price'])
+        const amount = quantity * unitPrice
+
+        return { description, quantity, unitPrice, amount } satisfies InvoiceItem
+      } catch {
+        // 개별 항목 조회 실패 시 skip
+        return null
+      }
+    })
+  )
+
+  return results.filter((item): item is InvoiceItem => item !== null)
+}
+
+/**
  * Notion 페이지 ID로 견적서 데이터를 조회합니다.
  * @param pageId - Notion 페이지 ID
  * @returns 견적서 데이터 또는 null (페이지가 없을 경우)
@@ -151,7 +188,14 @@ export async function getInvoiceByPageId(
       ),
       issueDate: extractDate(properties['발행일'] ?? properties['Issue Date']),
       dueDate: extractDate(properties['만료일'] ?? properties['Due Date']),
-      items: [],
+      items: await (async () => {
+        const relationProp =
+          properties['항목'] ?? properties['Items']
+        if (relationProp?.type === 'relation') {
+          return getInvoiceItems(relationProp.relation.map(r => r.id))
+        }
+        return []
+      })(),
       subtotal,
       tax,
       total: subtotal + tax,
