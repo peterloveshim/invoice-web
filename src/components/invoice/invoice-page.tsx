@@ -34,8 +34,8 @@ export function InvoicePage({ invoice }: InvoicePageProps) {
           status={invoice.status}
         />
 
-        {/* PDF 다운로드 버튼: 우측 정렬 */}
-        <div className="flex justify-end">
+        {/* PDF 다운로드 버튼: 우측 정렬, 인쇄 시 숨김 */}
+        <div className="flex justify-end" data-print-hide>
           <PdfDownloadButton
             notionPageId={invoice.id}
             invoiceNumber={invoice.invoiceNumber}

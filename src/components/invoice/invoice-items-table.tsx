@@ -26,13 +26,33 @@ export function InvoiceItemsTable({ items }: InvoiceItemsTableProps) {
   return (
     /* 모바일 가로 스크롤 래퍼 */
     <div className="overflow-x-auto">
-      <Table>
+      <Table aria-label="견적 항목 테이블">
         <TableHeader>
           <TableRow>
-            <TableHead className="py-3 text-left text-xs font-medium uppercase tracking-widest text-neutral-400">항목</TableHead>
-            <TableHead className="py-3 text-right text-xs font-medium uppercase tracking-widest text-neutral-400">수량</TableHead>
-            <TableHead className="py-3 text-right text-xs font-medium uppercase tracking-widest text-neutral-400">단가</TableHead>
-            <TableHead className="py-3 text-right text-xs font-medium uppercase tracking-widest text-neutral-400">금액</TableHead>
+            <TableHead
+              scope="col"
+              className="py-3 text-left text-xs font-medium tracking-widest text-neutral-500 uppercase"
+            >
+              항목
+            </TableHead>
+            <TableHead
+              scope="col"
+              className="py-3 text-right text-xs font-medium tracking-widest text-neutral-500 uppercase"
+            >
+              수량
+            </TableHead>
+            <TableHead
+              scope="col"
+              className="py-3 text-right text-xs font-medium tracking-widest text-neutral-500 uppercase"
+            >
+              단가
+            </TableHead>
+            <TableHead
+              scope="col"
+              className="py-3 text-right text-xs font-medium tracking-widest text-neutral-500 uppercase"
+            >
+              금액
+            </TableHead>
           </TableRow>
         </TableHeader>
 
@@ -40,7 +60,10 @@ export function InvoiceItemsTable({ items }: InvoiceItemsTableProps) {
           {items.length > 0 ? (
             // 항목이 있는 경우 각 행 렌더링
             items.map((item, index) => (
-              <TableRow key={index} className="border-b border-neutral-100 transition-colors hover:bg-neutral-50">
+              <TableRow
+                key={index}
+                className="border-b border-neutral-100 transition-colors hover:bg-neutral-50"
+              >
                 <TableCell className="py-4 text-sm font-medium text-neutral-900">
                   {item.description}
                 </TableCell>

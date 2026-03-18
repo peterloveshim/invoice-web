@@ -62,12 +62,13 @@ export function PdfDownloadButton({
       onClick={handleDownload}
       disabled={isLoading}
       variant="outline"
-      className="rounded-none gap-2"
+      className="gap-2 rounded-none"
+      data-print-hide
     >
       {isLoading ? (
         <LoadingSpinner size="sm" />
       ) : (
-        <Download className="w-4 h-4" />
+        <Download className="h-4 w-4" />
       )}
       PDF 다운로드
     </Button>

@@ -120,3 +120,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media print {
+  /* 인쇄 시 불필요한 UI 숨김 */
+  [data-print-hide] {
+    display: none !important;
+  }
+  /* 인쇄 배경 최적화 */
+  body {
+    background: white !important;
+  }
+  /* 그림자 제거 */
+  * {
+    box-shadow: none !important;
+  }
+}
