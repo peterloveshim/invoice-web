@@ -1,6 +1,6 @@
 # 노션 기반 견적서 관리 시스템 개발 로드맵
 
-> 마지막 업데이트: 2026-03-18 | 버전: v1.5
+> 마지막 업데이트: 2026-03-18 | 버전: v1.6
 
 ---
 
@@ -28,7 +28,7 @@
 | Phase 2: 공통 모듈 및 컴포넌트 구축 | 2주차 | 공유 유틸, 타입, shadcn/ui 설치, 공통 컴포넌트 | 완료 |
 | Phase 3: 견적서 조회 기능 구현      | 3주차 | 견적서 페이지 렌더링, 유효성 검증, 반응형 UI   | 완료 |
 | Phase 4: PDF 다운로드 기능 구현     | 4주차 | PDF 생성 API 및 다운로드 플로우 완성           | 완료 |
-| Phase 5: 품질 개선 및 배포          | 5주차 | 성능 최적화, 에러 처리 강화, Vercel 배포       | 진행 중 |
+| Phase 5: 품질 개선 및 배포          | 5주차 | 성능 최적화, 에러 처리 강화, Vercel 배포       | 완료 |
 
 ---
 
@@ -298,7 +298,7 @@
 
 ---
 
-## Phase 5: 품질 개선 및 배포 (5주차) 🚧
+## Phase 5: 품질 개선 및 배포 (5주차) ✅
 
 ### 목표
 
@@ -335,9 +335,9 @@
 
 **Vercel 배포**
 
-- [ ] Vercel 프로젝트 생성 및 GitHub 저장소 연결
-- [ ] Vercel 대시보드에서 환경 변수 설정 (`NOTION_API_KEY`, `NOTION_DATABASE_ID`)
-- [ ] 프로덕션 URL 확인 및 실제 노션 데이터와 연동 테스트
+- [x] Vercel 프로젝트 생성 및 GitHub 저장소 연결
+- [x] Vercel 대시보드에서 환경 변수 설정 (`NOTION_API_KEY`, `NOTION_DATABASE_ID`)
+- [x] 프로덕션 URL 확인 및 실제 노션 데이터와 연동 테스트
 - [x] `vercel.json` 설정 파일 생성 — 서울 리전(icn1), PDF API `maxDuration: 30`
 
 **최종 검수**
@@ -356,11 +356,11 @@
 - [ ] **Happy Path**: 페이지 초기 로드 시 스켈레톤 UI가 Notion API 응답 전에 표시되는지 확인 (네트워크 속도 조절 활용)
 - [x] **Edge Case**: 존재하지 않는 ID 접근 시 not-found 페이지 표시 확인
 - [x] **Edge Case**: `/api/invoice/[invalidID]/pdf` 직접 호출 시 404 응답 확인
-- [ ] **검증 항목**: Vercel 프로덕션 URL에서 실제 노션 데이터베이스와 연동하여 데이터 정합성 확인
+- [x] **검증 항목**: Vercel 프로덕션 URL에서 실제 노션 데이터베이스와 연동하여 데이터 정합성 확인
 
 ### 완료 기준 (Definition of Done)
 
-- [ ] Vercel 프로덕션 URL에서 견적서 조회 및 PDF 다운로드 정상 동작 확인
+- [x] Vercel 프로덕션 URL에서 견적서 조회 및 PDF 다운로드 정상 동작 확인
 - [x] 페이지 초기 로드 시 Notion API 응답 전 스켈레톤 UI 표시됨
 - [x] `npm run check-all` 및 `npm run build` 모두 통과
 - [x] 모바일 환경에서 PDF 다운로드 정상 동작 확인
