@@ -1,6 +1,7 @@
 'use client'
 
 import type { Invoice } from '@/lib/notion'
+import { formatCurrency, formatDate } from '@/lib/utils/format'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -21,28 +22,6 @@ const statusConfig: Record<
   sent: { label: '발송됨', variant: 'default' },
   paid: { label: '결제완료', variant: 'default' },
   cancelled: { label: '취소됨', variant: 'destructive' },
-}
-
-/**
- * 금액 포맷팅 헬퍼 함수
- */
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('ko-KR', {
-    style: 'currency',
-    currency: 'KRW',
-  }).format(amount)
-}
-
-/**
- * 날짜 포맷팅 헬퍼 함수
- */
-function formatDate(dateStr: string): string {
-  if (!dateStr) return '-'
-  return new Date(dateStr).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
 }
 
 /**
