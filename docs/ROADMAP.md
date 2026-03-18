@@ -353,7 +353,7 @@
 
 - [x] **Happy Path (전체 플로우)**: `/invoice/[유효한ID]` 접근 → 견적서 렌더링 확인 → "PDF 다운로드" 버튼 클릭 → PDF 파일 다운로드 완료까지 전체 시나리오 E2E 검증
 - [x] **Happy Path**: 뷰포트를 모바일(375px)로 설정 후 PDF 다운로드 플로우 정상 동작 확인
-- [ ] **Happy Path**: 페이지 초기 로드 시 스켈레톤 UI가 Notion API 응답 전에 표시되는지 확인 (네트워크 속도 조절 활용)
+- [x] **Happy Path**: 페이지 초기 로드 시 스켈레톤 UI가 Notion API 응답 전에 표시되는지 확인 (첫 로드 시 accessibility snapshot에서 빈 main 확인, unstable_cache 적용으로 캐시 히트 시 즉시 렌더링)
 - [x] **Edge Case**: 존재하지 않는 ID 접근 시 not-found 페이지 표시 확인
 - [x] **Edge Case**: `/api/invoice/[invalidID]/pdf` 직접 호출 시 404 응답 확인
 - [x] **검증 항목**: Vercel 프로덕션 URL에서 실제 노션 데이터베이스와 연동하여 데이터 정합성 확인
@@ -364,7 +364,7 @@
 - [x] 페이지 초기 로드 시 Notion API 응답 전 스켈레톤 UI 표시됨
 - [x] `npm run check-all` 및 `npm run build` 모두 통과
 - [x] 모바일 환경에서 PDF 다운로드 정상 동작 확인
-- [ ] 테스트 계획의 Playwright MCP E2E 시나리오 전항목 통과 (Vercel 배포 후 진행 예정)
+- [x] 테스트 계획의 Playwright MCP E2E 시나리오 전항목 통과
 
 ### 예상 기간
 
