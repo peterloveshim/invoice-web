@@ -17,20 +17,20 @@ export function InvoiceParties({ clientName, clientEmail }: InvoicePartiesProps)
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
       {/* 발급처 정보 */}
-      <div>
-        <h2 className="text-sm font-medium text-gray-500">발급처</h2>
-        <p className="mt-1 text-base font-semibold text-gray-900">귀하</p>
+      <div className="border-l-2 border-neutral-900 pl-3">
+        <h2 className="text-xs uppercase tracking-widest text-neutral-400">발급처</h2>
+        <p className="mt-1 text-base font-bold text-neutral-900">귀하</p>
       </div>
 
       {/* 수신처 정보 */}
-      <div>
-        <h2 className="text-sm font-medium text-gray-500">수신처</h2>
-        <p className="mt-1 text-base font-semibold text-gray-900">
+      <div className="border-l-2 border-neutral-900 pl-3">
+        <h2 className="text-xs uppercase tracking-widest text-neutral-400">수신처</h2>
+        <p className="mt-1 text-base font-bold text-neutral-900">
           {clientName}
         </p>
         {/* 이메일이 있을 경우에만 표시 */}
         {clientEmail && (
-          <p className="text-sm text-gray-600">{clientEmail}</p>
+          <p className="text-sm text-neutral-500">{clientEmail}</p>
         )}
       </div>
     </div>

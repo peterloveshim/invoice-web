@@ -11,16 +11,16 @@ interface ErrorMessageProps {
 
 export function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
   return (
-    <div className="flex flex-col items-center gap-4 py-8 text-center">
+    <div className="flex flex-col items-center gap-4 py-12 text-center">
       {/* 에러 아이콘 및 메시지 영역 */}
       <div className="text-destructive flex items-center gap-2">
-        <AlertCircle className="h-5 w-5 shrink-0" aria-hidden="true" />
+        <AlertCircle className="h-6 w-6 shrink-0" aria-hidden="true" />
         <p className="text-sm font-medium">{message}</p>
       </div>
 
       {/* 재시도 버튼: onRetry가 있을 경우에만 렌더링 */}
       {onRetry && (
-        <Button variant="outline" size="sm" onClick={onRetry}>
+        <Button variant="outline" size="sm" className="rounded-none" onClick={onRetry}>
           다시 시도
         </Button>
       )}

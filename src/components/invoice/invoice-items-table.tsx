@@ -29,10 +29,10 @@ export function InvoiceItemsTable({ items }: InvoiceItemsTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="text-left">항목</TableHead>
-            <TableHead className="text-right">수량</TableHead>
-            <TableHead className="text-right">단가</TableHead>
-            <TableHead className="text-right">금액</TableHead>
+            <TableHead className="py-3 text-left text-xs font-medium uppercase tracking-widest text-neutral-400">항목</TableHead>
+            <TableHead className="py-3 text-right text-xs font-medium uppercase tracking-widest text-neutral-400">수량</TableHead>
+            <TableHead className="py-3 text-right text-xs font-medium uppercase tracking-widest text-neutral-400">단가</TableHead>
+            <TableHead className="py-3 text-right text-xs font-medium uppercase tracking-widest text-neutral-400">금액</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -40,17 +40,17 @@ export function InvoiceItemsTable({ items }: InvoiceItemsTableProps) {
           {items.length > 0 ? (
             // 항목이 있는 경우 각 행 렌더링
             items.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell className="text-gray-900">
+              <TableRow key={index} className="border-b border-neutral-100 transition-colors hover:bg-neutral-50">
+                <TableCell className="py-4 text-sm font-medium text-neutral-900">
                   {item.description}
                 </TableCell>
-                <TableCell className="text-right text-gray-600">
+                <TableCell className="py-4 text-right text-sm text-neutral-500">
                   {item.quantity}
                 </TableCell>
-                <TableCell className="text-right text-gray-600">
+                <TableCell className="py-4 text-right text-sm text-neutral-500">
                   {formatCurrency(item.unitPrice)}
                 </TableCell>
-                <TableCell className="text-right font-medium text-gray-900">
+                <TableCell className="py-4 text-right text-sm font-semibold text-neutral-900">
                   {formatCurrency(item.amount)}
                 </TableCell>
               </TableRow>
@@ -60,7 +60,7 @@ export function InvoiceItemsTable({ items }: InvoiceItemsTableProps) {
             <TableRow>
               <TableCell
                 colSpan={4}
-                className="py-8 text-center text-gray-500"
+                className="py-8 text-center text-sm text-neutral-400"
               >
                 견적 항목이 없습니다.
               </TableCell>
