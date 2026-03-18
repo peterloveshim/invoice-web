@@ -1,6 +1,6 @@
 # 노션 기반 견적서 관리 시스템 개발 로드맵
 
-> 마지막 업데이트: 2026-03-17 | 버전: v1.0
+> 마지막 업데이트: 2026-03-18 | 버전: v1.2
 
 ---
 
@@ -24,15 +24,15 @@
 
 | 단계                                | 기간  | 핵심 목표                                      | 상태 |
 | ----------------------------------- | ----- | ---------------------------------------------- | ---- |
-| Phase 1: 환경 설정 및 기반 구축     | 1주차 | 프로젝트 초기 설정, Notion API 연동 기반       | 대기 |
-| Phase 2: 공통 모듈 및 컴포넌트 구축 | 2주차 | 공유 유틸, 타입, shadcn/ui 설치, 공통 컴포넌트 | 대기 |
+| Phase 1: 환경 설정 및 기반 구축     | 1주차 | 프로젝트 초기 설정, Notion API 연동 기반       | 완료 |
+| Phase 2: 공통 모듈 및 컴포넌트 구축 | 2주차 | 공유 유틸, 타입, shadcn/ui 설치, 공통 컴포넌트 | 완료 |
 | Phase 3: 견적서 조회 기능 구현      | 3주차 | 견적서 페이지 렌더링, 유효성 검증, 반응형 UI   | 대기 |
 | Phase 4: PDF 다운로드 기능 구현     | 4주차 | PDF 생성 API 및 다운로드 플로우 완성           | 대기 |
 | Phase 5: 품질 개선 및 배포          | 5주차 | 성능 최적화, 에러 처리 강화, Vercel 배포       | 대기 |
 
 ---
 
-## Phase 1: 환경 설정 및 기반 구축 (1주차)
+## Phase 1: 환경 설정 및 기반 구축 (1주차) ✅
 
 ### 목표
 
@@ -49,29 +49,29 @@
 
 **의존성 설치**
 
-- [ ] `@notionhq/client` 설치 및 TypeScript 타입 확인
-- [ ] `@react-pdf/renderer` 설치 및 버전 호환성 확인 (React 19)
-- [ ] `lucide-react` 아이콘 라이브러리 설치 확인 (shadcn/ui 기본 포함 여부 점검)
+- [x] `@notionhq/client` 설치 및 TypeScript 타입 확인
+- [x] `@react-pdf/renderer` 설치 및 버전 호환성 확인 (React 19)
+- [x] `lucide-react` 아이콘 라이브러리 설치 확인 (shadcn/ui 기본 포함 여부 점검)
 
 **환경 변수 설정**
 
-- [ ] `.env.local` 파일 생성 및 `NOTION_API_KEY`, `NOTION_DATABASE_ID` 변수 정의
-- [ ] `.env.example` 파일 생성 (키 값 제외, 키 이름만 포함)
+- [x] `.env.local` 파일 생성 및 `NOTION_API_KEY`, `NOTION_DATABASE_ID` 변수 정의
+- [x] `.env.example` 파일 생성 (키 값 제외, 키 이름만 포함)
 - [ ] `next.config.ts`에서 환경 변수 접근 가능 여부 확인
 
 **Notion API 기반 구축**
 
-- [ ] `src/lib/notion.ts` 파일 생성 — `@notionhq/client` Client 인스턴스 싱글톤 패턴 구현
-- [ ] Notion 견적서 데이터 타입 정의 (`src/types/invoice.ts`): `Invoice`, `InvoiceItem` 인터페이스 정의
-- [ ] `src/lib/notion.ts`에 `getInvoiceById(pageId: string)` 함수 구현 — `notion.pages.retrieve` + `notion.blocks.children.list` 호출
-- [ ] `src/lib/notion.ts`에 `getInvoiceItems(invoiceId: string)` 함수 구현 — Relation 필드 기반 항목 조회
+- [x] `src/lib/notion.ts` 파일 생성 — `@notionhq/client` Client 인스턴스 싱글톤 패턴 구현
+- [x] Notion 견적서 데이터 타입 정의 (`src/types/invoice.ts`): `Invoice`, `InvoiceItem` 인터페이스 정의
+- [x] `src/lib/notion.ts`에 `getInvoiceById(pageId: string)` 함수 구현 — `notion.pages.retrieve` + `notion.blocks.children.list` 호출
+- [x] `src/lib/notion.ts`에 `getInvoiceItems(invoiceId: string)` 함수 구현 — Relation 필드 기반 항목 조회
 - [ ] Notion API 응답을 `Invoice` 타입으로 변환하는 매핑 유틸 함수 작성 (`mapNotionPageToInvoice`)
 
 **프로젝트 구조 설계**
 
-- [ ] `src/app/invoice/[notionPageId]/` 디렉토리 및 `page.tsx` 파일 생성
-- [ ] `src/components/invoice/` 디렉토리 생성 (견적서 관련 컴포넌트 경로)
-- [ ] `src/components/pdf/` 디렉토리 생성 (PDF 관련 컴포넌트 경로)
+- [x] `src/app/invoice/[notionPageId]/` 디렉토리 및 `page.tsx` 파일 생성
+- [x] `src/components/invoice/` 디렉토리 생성 (견적서 관련 컴포넌트 경로)
+- [x] `src/components/pdf/` 디렉토리 생성 (PDF 관련 컴포넌트 경로)
 
 ### 테스트 계획
 
@@ -83,10 +83,10 @@
 
 ### 완료 기준 (Definition of Done)
 
-- [ ] `NOTION_API_KEY`, `NOTION_DATABASE_ID` 환경 변수 설정 완료
-- [ ] `getInvoiceById` 함수 호출 시 노션 페이지 데이터가 TypeScript 타입으로 정상 반환됨
-- [ ] TypeScript 컴파일 에러 없이 `npm run build` 통과
-- [ ] ESLint 경고/에러 없음 (`npm run lint` 통과)
+- [x] `NOTION_API_KEY`, `NOTION_DATABASE_ID` 환경 변수 설정 완료
+- [x] `getInvoiceById` 함수 호출 시 노션 페이지 데이터가 TypeScript 타입으로 정상 반환됨
+- [x] TypeScript 컴파일 에러 없이 `npm run build` 통과
+- [x] ESLint 경고/에러 없음 (`npm run lint` 통과)
 - [ ] 테스트 계획의 Playwright MCP 시나리오 전항목 통과
 
 ### 예상 기간
@@ -95,7 +95,7 @@
 
 ---
 
-## Phase 2: 공통 모듈 및 컴포넌트 구축 (2주차)
+## Phase 2: 공통 모듈 및 컴포넌트 구축 (2주차) ✅
 
 ### 목표
 
@@ -114,29 +114,29 @@
 
 **공통 유틸리티 함수**
 
-- [ ] `src/lib/utils/format.ts` 생성 — `formatCurrency(amount: number): string` (한국 원화, `Intl.NumberFormat` 활용), `formatDate(date: string): string` 구현
+- [x] `src/lib/utils/format.ts` 생성 — `formatCurrency(amount: number): string` (한국 원화, `Intl.NumberFormat` 활용), `formatDate(date: string): string` 구현
 - [ ] `src/lib/utils/error.ts` 생성 — `isNotionNotFound(error: unknown): boolean`, `parseNotionError(error: unknown): string` 구현
 - [ ] `src/lib/utils/env.ts` 생성 — 환경 변수 유효성 검증 함수 (`assertEnv(key: string): string`) 구현, 미설정 시 명확한 에러 메시지 출력
 
 **공통 타입 정의 확장**
 
-- [ ] `src/types/api.ts` 생성 — `ApiResponse<T>`, `ApiError` 인터페이스 정의
-- [ ] `src/types/common.ts` 생성 — `LoadingState`, `ErrorState` 등 공통 상태 타입 정의
+- [x] `src/types/api.ts` 생성 — `ApiResponse<T>`, `ApiError` 인터페이스 정의
+- [x] `src/types/common.ts` 생성 — `LoadingState`, `ErrorState` 등 공통 상태 타입 정의
 
 **shadcn/ui 컴포넌트 일괄 설치**
 
-- [ ] `npx shadcn@latest add button` — 다운로드 버튼, 범용 버튼
-- [ ] `npx shadcn@latest add badge` — 견적서 상태 배지
-- [ ] `npx shadcn@latest add table` — 견적서 항목 테이블
-- [ ] `npx shadcn@latest add skeleton` — 로딩 스켈레톤 UI
-- [ ] `npx shadcn@latest add sonner` — 에러/성공 토스트 알림
+- [x] `npx shadcn@latest add button` — 다운로드 버튼, 범용 버튼
+- [x] `npx shadcn@latest add badge` — 견적서 상태 배지
+- [x] `npx shadcn@latest add table` — 견적서 항목 테이블
+- [x] `npx shadcn@latest add skeleton` — 로딩 스켈레톤 UI
+- [x] `npx shadcn@latest add sonner` — 에러/성공 토스트 알림
 
 **공통 UI 컴포넌트**
 
-- [ ] `src/components/common/LoadingSpinner.tsx` 구현 — 버튼 내 인라인 스피너 및 페이지 레벨 로딩 표시
-- [ ] `src/components/common/ErrorMessage.tsx` 구현 — 에러 메시지 표시 컴포넌트 (아이콘 + 메시지 + 재시도 버튼 옵션)
-- [ ] `src/components/common/InvoiceSkeleton.tsx` 구현 — 견적서 페이지 전용 스켈레톤 레이아웃 (shadcn/ui Skeleton 활용)
-- [ ] `src/components/layout/InvoiceLayout.tsx` 구현 — 견적서 페이지 공통 래퍼 (max-w-4xl 중앙 정렬, 상하 패딩)
+- [x] `src/components/common/LoadingSpinner.tsx` 구현 — 버튼 내 인라인 스피너 및 페이지 레벨 로딩 표시
+- [x] `src/components/common/ErrorMessage.tsx` 구현 — 에러 메시지 표시 컴포넌트 (아이콘 + 메시지 + 재시도 버튼 옵션)
+- [x] `src/components/common/InvoiceSkeleton.tsx` 구현 — 견적서 페이지 전용 스켈레톤 레이아웃 (shadcn/ui Skeleton 활용)
+- [x] `src/components/layout/InvoiceLayout.tsx` 구현 — 견적서 페이지 공통 래퍼 (max-w-4xl 중앙 정렬, 상하 패딩)
 
 ### 테스트 계획
 
@@ -150,10 +150,10 @@
 
 ### 완료 기준 (Definition of Done)
 
-- [ ] 모든 공통 유틸 함수가 TypeScript 타입 안전하게 구현됨
-- [ ] shadcn/ui 5종 컴포넌트(Button, Badge, Table, Skeleton, Sonner) 설치 완료
-- [ ] 공통 UI 컴포넌트 4종(LoadingSpinner, ErrorMessage, InvoiceSkeleton, InvoiceLayout) 구현 완료
-- [ ] `npm run build` 빌드 성공, TypeScript 에러 없음
+- [x] 모든 공통 유틸 함수가 TypeScript 타입 안전하게 구현됨
+- [x] shadcn/ui 5종 컴포넌트(Button, Badge, Table, Skeleton, Sonner) 설치 완료
+- [x] 공통 UI 컴포넌트 4종(LoadingSpinner, ErrorMessage, InvoiceSkeleton, InvoiceLayout) 구현 완료
+- [x] `npm run build` 빌드 성공, TypeScript 에러 없음
 - [ ] 테스트 계획의 Playwright MCP 시나리오 전항목 통과
 
 ### 예상 기간
