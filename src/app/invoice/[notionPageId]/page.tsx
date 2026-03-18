@@ -1,14 +1,14 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getInvoiceByPageId } from '@/lib/notion'
-import { InvoiceView } from '@/components/invoice/invoice-view'
+import { InvoicePage as InvoicePageComponent } from '@/components/invoice/invoice-page'
 
 /**
  * 견적서 조회 페이지 Props 타입
  */
 interface InvoicePageProps {
   params: Promise<{
-    id: string
+    notionPageId: string
   }>
 }
 
@@ -19,8 +19,8 @@ interface InvoicePageProps {
 export async function generateMetadata({
   params,
 }: InvoicePageProps): Promise<Metadata> {
-  const { id } = await params
-  const invoice = await getInvoiceByPageId(id)
+  const { notionPageId } = await params
+  const invoice = await getInvoiceByPageId(notionPageId)
 
   if (!invoice) {
     return {
@@ -38,13 +38,13 @@ export async function generateMetadata({
  * 견적서 상세 조회 페이지
  * Notion 페이지 ID를 기반으로 견적서 데이터를 조회하여 표시합니다.
  *
- * @param params.id - Notion 페이지 ID
+ * @param params.notionPageId - Notion 페이지 ID
  */
-export default async function InvoicePage({ params }: InvoicePageProps) {
-  const { id } = await params
+export default async function Page({ params }: InvoicePageProps) {
+  const { notionPageId } = await params
 
   // Notion API에서 견적서 데이터 조회
-  const invoice = await getInvoiceByPageId(id)
+  const invoice = await getInvoiceByPageId(notionPageId)
 
   // 견적서가 없으면 404 페이지 표시
   if (!invoice) {
@@ -53,9 +53,7 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-        <InvoiceView invoice={invoice} />
-      </div>
+      <InvoicePageComponent invoice={invoice} />
     </main>
   )
 }
