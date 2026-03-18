@@ -1,6 +1,6 @@
 # 노션 기반 견적서 관리 시스템 개발 로드맵
 
-> 마지막 업데이트: 2026-03-18 | 버전: v1.2
+> 마지막 업데이트: 2026-03-18 | 버전: v1.3
 
 ---
 
@@ -12,11 +12,11 @@
 
 ## 핵심 목표
 
-- [ ] 노션 데이터베이스에서 견적서 데이터를 정상적으로 조회
-- [ ] 고유 URL(`/invoice/[notionPageId]`)로 견적서를 웹에서 정확하게 표시
+- [x] 노션 데이터베이스에서 견적서 데이터를 정상적으로 조회
+- [x] 고유 URL(`/invoice/[notionPageId]`)로 견적서를 웹에서 정확하게 표시
 - [ ] PDF 다운로드 버튼 클릭 시 견적서가 즉시 PDF로 다운로드
-- [ ] 모바일·태블릿·데스크톱 모든 환경에서 정상 작동
-- [ ] 잘못된 URL 접근 시 적절한 에러 페이지 표시
+- [x] 모바일·태블릿·데스크톱 모든 환경에서 정상 작동
+- [x] 잘못된 URL 접근 시 적절한 에러 페이지 표시
 
 ---
 
@@ -26,7 +26,7 @@
 | ----------------------------------- | ----- | ---------------------------------------------- | ---- |
 | Phase 1: 환경 설정 및 기반 구축     | 1주차 | 프로젝트 초기 설정, Notion API 연동 기반       | 완료 |
 | Phase 2: 공통 모듈 및 컴포넌트 구축 | 2주차 | 공유 유틸, 타입, shadcn/ui 설치, 공통 컴포넌트 | 완료 |
-| Phase 3: 견적서 조회 기능 구현      | 3주차 | 견적서 페이지 렌더링, 유효성 검증, 반응형 UI   | 대기 |
+| Phase 3: 견적서 조회 기능 구현      | 3주차 | 견적서 페이지 렌더링, 유효성 검증, 반응형 UI   | 완료 |
 | Phase 4: PDF 다운로드 기능 구현     | 4주차 | PDF 생성 API 및 다운로드 플로우 완성           | 대기 |
 | Phase 5: 품질 개선 및 배포          | 5주차 | 성능 최적화, 에러 처리 강화, Vercel 배포       | 대기 |
 
@@ -162,7 +162,7 @@
 
 ---
 
-## Phase 3: 견적서 조회 기능 구현 (3주차)
+## Phase 3: 견적서 조회 기능 구현 (3주차) ✅
 
 ### 목표
 
@@ -181,49 +181,49 @@
 
 **견적서 조회 페이지 (Server Component)**
 
-- [ ] `app/invoice/[notionPageId]/page.tsx`를 async Server Component로 구현
-- [ ] `params.notionPageId`로 `getInvoiceById` 호출 및 데이터 페칭
-- [ ] Notion API 404/에러 응답 처리 — `notFound()` 함수 호출로 Next.js 404 페이지 렌더링
-- [ ] `generateMetadata` 함수 구현 — 견적서 번호 기반 페이지 타이틀 동적 설정
+- [x] `app/invoice/[notionPageId]/page.tsx`를 async Server Component로 구현
+- [x] `params.notionPageId`로 `getInvoiceById` 호출 및 데이터 페칭
+- [x] Notion API 404/에러 응답 처리 — `notFound()` 함수 호출로 Next.js 404 페이지 렌더링
+- [x] `generateMetadata` 함수 구현 — 견적서 번호 기반 페이지 타이틀 동적 설정
 
 **견적서 UI 컴포넌트**
 
-- [ ] `src/components/invoice/InvoiceHeader.tsx` 구현 — 견적서 번호, 발행일, 유효기간, 상태 배지(shadcn/ui Badge) 표시
-- [ ] `src/components/invoice/InvoiceParties.tsx` 구현 — 발행자 정보(회사명, 사업자번호 등)와 클라이언트명 2열 레이아웃
-- [ ] `src/components/invoice/InvoiceItemsTable.tsx` 구현 — 항목명·수량·단가·금액 테이블 (shadcn/ui Table 컴포넌트 활용)
-- [ ] `src/components/invoice/InvoiceSummary.tsx` 구현 — 소계, 세금(10%), 총액 합계 섹션
-- [ ] `src/components/invoice/InvoicePage.tsx` 구현 — 위 컴포넌트를 조합한 견적서 전체 레이아웃 컴포넌트
+- [x] `src/components/invoice/InvoiceHeader.tsx` 구현 — 견적서 번호, 발행일, 유효기간, 상태 배지(shadcn/ui Badge) 표시
+- [x] `src/components/invoice/InvoiceParties.tsx` 구현 — 발행자 정보(회사명, 사업자번호 등)와 클라이언트명 2열 레이아웃
+- [x] `src/components/invoice/InvoiceItemsTable.tsx` 구현 — 항목명·수량·단가·금액 테이블 (shadcn/ui Table 컴포넌트 활용)
+- [x] `src/components/invoice/InvoiceSummary.tsx` 구현 — 소계, 세금(10%), 총액 합계 섹션
+- [x] `src/components/invoice/InvoicePage.tsx` 구현 — 위 컴포넌트를 조합한 견적서 전체 레이아웃 컴포넌트
 
 **에러 처리**
 
-- [ ] `app/invoice/[notionPageId]/not-found.tsx` 생성 — "견적서를 찾을 수 없습니다" 안내 메시지, 발행자에게 문의하도록 가이드 텍스트 포함
-- [ ] `app/error.tsx` 또는 `app/invoice/[notionPageId]/error.tsx` 생성 — Notion API 네트워크 에러 등 예외 상황 처리
+- [x] `app/invoice/[notionPageId]/not-found.tsx` 생성 — "견적서를 찾을 수 없습니다" 안내 메시지, 발행자에게 문의하도록 가이드 텍스트 포함
+- [x] `app/invoice/[notionPageId]/error.tsx` 생성 — Notion API 네트워크 에러 등 예외 상황 처리
 
 **반응형 레이아웃**
 
-- [ ] 모바일(320px~): 단열 레이아웃, 텍스트 크기 축소, 테이블 가로 스크롤
-- [ ] 태블릿(768px~): 2열 레이아웃 적용 (발행자/클라이언트 섹션)
-- [ ] 데스크톱(1024px~): 최대 너비 제한(max-w-4xl), 중앙 정렬, 여백 확보
+- [x] 모바일(320px~): 단열 레이아웃, 텍스트 크기 축소, 테이블 가로 스크롤
+- [x] 태블릿(768px~): 2열 레이아웃 적용 (발행자/클라이언트 섹션)
+- [x] 데스크톱(1024px~): 최대 너비 제한(max-w-4xl), 중앙 정렬, 여백 확보
 
 ### 테스트 계획
 
 **Playwright MCP 테스트 시나리오**
 
-- [ ] **Happy Path**: `/invoice/[유효한ID]` 접근 시 견적서 번호, 클라이언트명, 항목 테이블, 총액이 화면에 렌더링되는지 확인
-- [ ] **Happy Path**: 금액 표시가 한국 원화(₩1,000,000) 형식으로 올바르게 표시되는지 확인
-- [ ] **Happy Path**: 뷰포트를 375px(모바일), 768px(태블릿), 1280px(데스크톱)으로 변경 후 레이아웃 깨짐 없음 확인
-- [ ] **Edge Case**: 존재하지 않는 ID(`/invoice/invalid-id`)로 접근 시 not-found 페이지가 렌더링되는지 확인
-- [ ] **Edge Case**: Notion API 에러 발생 시 error 페이지가 표시되는지 확인
-- [ ] **검증 항목**: `generateMetadata`로 설정된 페이지 타이틀이 견적서 번호를 포함하는지 확인
+- [x] **Happy Path**: `/invoice/[유효한ID]` 접근 시 견적서 번호, 클라이언트명, 항목 테이블, 총액이 화면에 렌더링되는지 확인
+- [x] **Happy Path**: 금액 표시가 한국 원화(₩1,000,000) 형식으로 올바르게 표시되는지 확인
+- [x] **Happy Path**: 뷰포트를 375px(모바일), 768px(태블릿), 1280px(데스크톱)으로 변경 후 레이아웃 깨짐 없음 확인
+- [x] **Edge Case**: 존재하지 않는 ID(`/invoice/invalid-id`)로 접근 시 not-found 페이지가 렌더링되는지 확인
+- [x] **Edge Case**: Notion API 에러 발생 시 error 페이지가 표시되는지 확인
+- [x] **검증 항목**: `generateMetadata`로 설정된 페이지 타이틀이 견적서 번호를 포함하는지 확인
 
 ### 완료 기준 (Definition of Done)
 
-- [ ] 유효한 `notionPageId`로 `/invoice/[id]` 접근 시 견적서 정보가 화면에 정상 표시됨
-- [ ] 존재하지 않는 ID 접근 시 not-found 페이지가 표시됨
-- [ ] 모바일(375px), 태블릿(768px), 데스크톱(1280px) 기준 화면 레이아웃이 깨지지 않음
-- [ ] 금액이 한국 원화(₩) 형식으로 올바르게 표시됨 (예: ₩1,000,000)
-- [ ] `npm run build` 빌드 성공, TypeScript 에러 없음
-- [ ] 테스트 계획의 Playwright MCP 시나리오 전항목 통과
+- [x] 유효한 `notionPageId`로 `/invoice/[id]` 접근 시 견적서 정보가 화면에 정상 표시됨
+- [x] 존재하지 않는 ID 접근 시 not-found 페이지가 표시됨
+- [x] 모바일(375px), 태블릿(768px), 데스크톱(1280px) 기준 화면 레이아웃이 깨지지 않음
+- [x] 금액이 한국 원화(₩) 형식으로 올바르게 표시됨 (예: ₩1,000,000)
+- [x] `npm run build` 빌드 성공, TypeScript 에러 없음
+- [x] 테스트 계획의 Playwright MCP 시나리오 전항목 통과
 
 ### 예상 기간
 
@@ -318,7 +318,7 @@
 **성능 최적화**
 
 - [ ] Server Component의 Notion API 호출에 Next.js `cache()` 또는 `unstable_cache` 적용 — 동일 페이지 중복 요청 방지
-- [ ] `app/invoice/[notionPageId]/loading.tsx` 생성 — Phase 2에서 구현한 `InvoiceSkeleton` 컴포넌트 활용
+- [x] `app/invoice/[notionPageId]/loading.tsx` 생성 — Phase 2에서 구현한 `InvoiceSkeleton` 컴포넌트 활용
 
 **에러 처리 강화**
 
