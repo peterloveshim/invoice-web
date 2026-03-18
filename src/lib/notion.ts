@@ -209,13 +209,23 @@ export async function getInvoiceByPageId(
 
     return invoice
   } catch (error) {
-    // Notion API 오류 처리 (페이지 없음, 권한 없음 등)
-    if (
-      error instanceof Error &&
-      (error.message.includes('Could not find page') ||
-        error.message.includes('object_not_found') ||
-        error.message.includes('unauthorized'))
-    ) {
+    // Notion API 오류 처리 (페이지 없음, 권한 없음, 잘못된 ID 형식 등)
+    if (error instanceof Error) {
+      const msg = error.message
+      if (
+        msg.includes('Could not find page') ||
+        msg.includes('object_not_found') ||
+        msg.includes('unauthorized') ||
+        msg.includes('validation_error') ||
+        msg.includes('Invalid') ||
+        msg.includes('path could not be resolved')
+      ) {
+        return null
+      }
+    }
+    // APIResponseError의 status 코드로도 처리 (400, 404)
+    const apiError = error as { status?: number }
+    if (apiError.status === 400 || apiError.status === 404) {
       return null
     }
     throw error

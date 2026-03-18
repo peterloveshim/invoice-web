@@ -8,6 +8,7 @@ import { InvoiceHeader } from '@/components/invoice/invoice-header'
 import { InvoiceParties } from '@/components/invoice/invoice-parties'
 import { InvoiceItemsTable } from '@/components/invoice/invoice-items-table'
 import { InvoiceSummary } from '@/components/invoice/invoice-summary'
+import { PdfDownloadButton } from '@/components/invoice/pdf-download-button'
 
 /**
  * 견적서 페이지 컴포넌트 Props
@@ -32,6 +33,14 @@ export function InvoicePage({ invoice }: InvoicePageProps) {
           dueDate={invoice.dueDate}
           status={invoice.status}
         />
+
+        {/* PDF 다운로드 버튼: 우측 정렬 */}
+        <div className="flex justify-end">
+          <PdfDownloadButton
+            notionPageId={invoice.id}
+            invoiceNumber={invoice.invoiceNumber}
+          />
+        </div>
 
         {/* 당사자 정보 카드: 발급처, 수신처 */}
         <Card className="rounded-none border border-neutral-200 shadow-none">

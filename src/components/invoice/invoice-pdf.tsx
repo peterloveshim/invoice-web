@@ -1,5 +1,24 @@
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
+import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer'
+import path from 'path'
 import type { Invoice } from '@/lib/notion'
+
+/**
+ * NotoSansKR 한글 폰트 등록
+ * 서버 사이드에서 process.cwd() 기준으로 폰트 파일 경로를 설정합니다.
+ */
+Font.register({
+  family: 'NotoSansKR',
+  fonts: [
+    {
+      src: path.join(process.cwd(), 'public/fonts/NotoSansKR-Regular.ttf'),
+      fontWeight: 400,
+    },
+    {
+      src: path.join(process.cwd(), 'public/fonts/NotoSansKR-Bold.ttf'),
+      fontWeight: 700,
+    },
+  ],
+})
 
 /**
  * PDF 스타일 정의
@@ -8,7 +27,7 @@ import type { Invoice } from '@/lib/notion'
 const styles = StyleSheet.create({
   page: {
     padding: 40,
-    fontFamily: 'Helvetica',
+    fontFamily: 'NotoSansKR',
     fontSize: 10,
     color: '#1a1a1a',
   },
@@ -19,7 +38,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'NotoSansKR',
+    fontWeight: 700,
     color: '#1a1a1a',
   },
   invoiceNumber: {
@@ -45,7 +65,8 @@ const styles = StyleSheet.create({
   },
   sectionValue: {
     fontSize: 12,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'NotoSansKR',
+    fontWeight: 700,
   },
   sectionSubValue: {
     fontSize: 10,
@@ -82,28 +103,32 @@ const styles = StyleSheet.create({
     flex: 3,
     color: '#666666',
     fontSize: 9,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'NotoSansKR',
+    fontWeight: 700,
   },
   colQuantity: {
     flex: 1,
     textAlign: 'right',
     color: '#666666',
     fontSize: 9,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'NotoSansKR',
+    fontWeight: 700,
   },
   colUnitPrice: {
     flex: 2,
     textAlign: 'right',
     color: '#666666',
     fontSize: 9,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'NotoSansKR',
+    fontWeight: 700,
   },
   colAmount: {
     flex: 2,
     textAlign: 'right',
     color: '#666666',
     fontSize: 9,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'NotoSansKR',
+    fontWeight: 700,
   },
   colDescriptionValue: {
     flex: 3,
@@ -125,7 +150,8 @@ const styles = StyleSheet.create({
     flex: 2,
     textAlign: 'right',
     fontSize: 10,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'NotoSansKR',
+    fontWeight: 700,
   },
   totalsSection: {
     marginTop: 16,
@@ -158,13 +184,15 @@ const styles = StyleSheet.create({
   },
   grandTotalLabel: {
     fontSize: 12,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'NotoSansKR',
+    fontWeight: 700,
     width: 80,
     textAlign: 'right',
   },
   grandTotalValue: {
     fontSize: 12,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'NotoSansKR',
+    fontWeight: 700,
     width: 100,
     textAlign: 'right',
   },
@@ -176,7 +204,8 @@ const styles = StyleSheet.create({
   },
   notesTitle: {
     fontSize: 10,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'NotoSansKR',
+    fontWeight: 700,
     marginBottom: 6,
     color: '#374151',
   },

@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { renderToBuffer } from '@react-pdf/renderer'
-import { createElement } from 'react'
 import { getInvoiceByPageId } from '@/lib/notion'
-import { InvoicePdfDocument } from '@/components/invoice/invoice-pdf'
+import { generateInvoicePdf } from '@/lib/pdf'
 
 /**
- * PDF 생성 API Route
+ * PDF 생성 API Route (레거시 경로 유지)
  * GET /api/generate-pdf?invoiceId={notionPageId}
  *
- * Notion 페이지 ID를 기반으로 견적서 PDF를 생성하여 반환합니다.
+ * 신규 RESTful 경로: GET /api/invoice/[notionPageId]/pdf
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl
@@ -33,19 +31,15 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // @react-pdf/renderer로 PDF 버퍼 생성
-    const element = createElement(InvoicePdfDocument, { invoice })
-    // renderToBuffer는 Uint8Array 또는 Buffer를 반환합니다.
-    const pdfBuffer = await renderToBuffer(
-      element as Parameters<typeof renderToBuffer>[0]
-    )
+    // 공통 유틸 함수로 PDF 버퍼 생성
+    const pdfBuffer = await generateInvoicePdf(invoice)
 
     // PDF 파일을 응답으로 반환
     return new NextResponse(pdfBuffer as unknown as BodyInit, {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="estimate_${invoice.invoiceNumber}.pdf"`,
+        'Content-Disposition': `attachment; filename="invoice-${invoice.invoiceNumber}.pdf"`,
         'Cache-Control': 'no-store',
       },
     })
