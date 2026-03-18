@@ -1,6 +1,6 @@
 # 노션 기반 견적서 관리 시스템 개발 로드맵
 
-> 마지막 업데이트: 2026-03-18 | 버전: v1.3
+> 마지막 업데이트: 2026-03-18 | 버전: v1.4
 
 ---
 
@@ -14,7 +14,7 @@
 
 - [x] 노션 데이터베이스에서 견적서 데이터를 정상적으로 조회
 - [x] 고유 URL(`/invoice/[notionPageId]`)로 견적서를 웹에서 정확하게 표시
-- [ ] PDF 다운로드 버튼 클릭 시 견적서가 즉시 PDF로 다운로드
+- [x] PDF 다운로드 버튼 클릭 시 견적서가 즉시 PDF로 다운로드
 - [x] 모바일·태블릿·데스크톱 모든 환경에서 정상 작동
 - [x] 잘못된 URL 접근 시 적절한 에러 페이지 표시
 
@@ -27,7 +27,7 @@
 | Phase 1: 환경 설정 및 기반 구축     | 1주차 | 프로젝트 초기 설정, Notion API 연동 기반       | 완료 |
 | Phase 2: 공통 모듈 및 컴포넌트 구축 | 2주차 | 공유 유틸, 타입, shadcn/ui 설치, 공통 컴포넌트 | 완료 |
 | Phase 3: 견적서 조회 기능 구현      | 3주차 | 견적서 페이지 렌더링, 유효성 검증, 반응형 UI   | 완료 |
-| Phase 4: PDF 다운로드 기능 구현     | 4주차 | PDF 생성 API 및 다운로드 플로우 완성           | 대기 |
+| Phase 4: PDF 다운로드 기능 구현     | 4주차 | PDF 생성 API 및 다운로드 플로우 완성           | 완료 |
 | Phase 5: 품질 개선 및 배포          | 5주차 | 성능 최적화, 에러 처리 강화, Vercel 배포       | 대기 |
 
 ---
@@ -231,7 +231,7 @@
 
 ---
 
-## Phase 4: PDF 다운로드 기능 구현 (4주차)
+## Phase 4: PDF 다운로드 기능 구현 (4주차) ✅
 
 ### 목표
 
@@ -248,49 +248,49 @@
 
 **PDF 생성 API Route**
 
-- [ ] `app/api/invoice/[notionPageId]/pdf/route.ts` 생성 — GET 요청 처리
-- [ ] API Route 내에서 `getInvoiceById` 호출로 노션 데이터 조회
-- [ ] `@react-pdf/renderer`의 `renderToBuffer` 또는 `pdf().toBlob()` 활용하여 PDF 생성
-- [ ] Response 헤더 설정: `Content-Type: application/pdf`, `Content-Disposition: attachment; filename="invoice-[번호].pdf"`
-- [ ] 존재하지 않는 ID 요청 시 404 응답 반환
+- [x] `app/api/invoice/[notionPageId]/pdf/route.ts` 생성 — GET 요청 처리
+- [x] API Route 내에서 `getInvoiceById` 호출로 노션 데이터 조회
+- [x] `@react-pdf/renderer`의 `renderToBuffer` 활용하여 PDF 생성 (`src/lib/pdf.ts` 공통 유틸로 추출)
+- [x] Response 헤더 설정: `Content-Type: application/pdf`, `Content-Disposition: attachment; filename="invoice-[번호].pdf"`
+- [x] 존재하지 않는 ID 요청 시 404 응답 반환
 
 **PDF 레이아웃 컴포넌트**
 
-- [ ] `src/components/pdf/InvoicePDF.tsx` 생성 — `@react-pdf/renderer`의 `Document`, `Page`, `View`, `Text`, `StyleSheet` 활용
-- [ ] PDF 헤더 섹션: 견적서 번호, 발행일, 유효기간
-- [ ] PDF 발행자/클라이언트 섹션: 2열 레이아웃
-- [ ] PDF 항목 테이블: 항목명, 수량, 단가, 금액 열 구성
-- [ ] PDF 합계 섹션: 소계, 세금, 총액
-- [ ] 한글 폰트 내장 설정 (`Font.register` 활용, Noto Sans KR 또는 Pretendard 폰트 적용)
+- [x] `src/components/invoice/invoice-pdf.tsx` — `@react-pdf/renderer`의 `Document`, `Page`, `View`, `Text`, `StyleSheet` 활용
+- [x] PDF 헤더 섹션: 견적서 번호, 발행일, 유효기간
+- [x] PDF 발행자/클라이언트 섹션: 2열 레이아웃
+- [x] PDF 항목 테이블: 항목명, 수량, 단가, 금액 열 구성
+- [x] PDF 합계 섹션: 소계, 세금, 총액
+- [x] 한글 폰트 내장 설정 (`Font.register` 활용, Noto Sans KR 적용, `public/fonts/` 정적 배치)
 
 **다운로드 버튼 (Client Component)**
 
-- [ ] `src/components/invoice/PdfDownloadButton.tsx` Client Component 구현
-- [ ] 버튼 클릭 시 `/api/invoice/[notionPageId]/pdf` 엔드포인트 fetch 호출
-- [ ] Blob 응답을 받아 `URL.createObjectURL` + `<a>` 태그로 파일 다운로드 트리거
-- [ ] 다운로드 진행 중 로딩 상태 표시 (shadcn/ui Button의 disabled + 스피너)
-- [ ] 다운로드 실패 시 에러 토스트 알림 표시 (shadcn/ui Sonner 또는 Toast 활용)
+- [x] `src/components/invoice/pdf-download-button.tsx` Client Component 구현
+- [x] 버튼 클릭 시 `/api/invoice/[notionPageId]/pdf` 엔드포인트 fetch 호출
+- [x] Blob 응답을 받아 `URL.createObjectURL` + `<a>` 태그로 파일 다운로드 트리거
+- [x] 다운로드 진행 중 로딩 상태 표시 (shadcn/ui Button의 disabled + 스피너)
+- [x] 다운로드 실패 시 에러 토스트 알림 표시 (shadcn/ui Sonner 활용)
 
 ### 테스트 계획
 
 **Playwright MCP 테스트 시나리오**
 
-- [ ] **Happy Path**: "PDF 다운로드" 버튼 클릭 시 다운로드 진행 중 버튼이 비활성화(disabled)되고 스피너가 표시되는지 확인
-- [ ] **Happy Path**: PDF 파일 다운로드가 시작되고 파일명이 `invoice-[번호].pdf` 형식인지 확인
-- [ ] **Happy Path**: `/api/invoice/[유효한ID]/pdf` GET 요청 시 `Content-Type: application/pdf` 헤더와 함께 200 응답 반환 확인 (Playwright 네트워크 요청 모니터링 활용)
-- [ ] **Edge Case**: 존재하지 않는 ID로 `/api/invoice/[invalidID]/pdf` 직접 호출 시 404 응답 반환 확인
-- [ ] **Edge Case**: 네트워크 에러 시뮬레이션 후 에러 토스트 알림이 화면에 표시되는지 확인
-- [ ] **검증 항목**: 다운로드 완료 후 버튼이 다시 활성화(enabled) 상태로 복원되는지 확인
+- [x] **Happy Path**: "PDF 다운로드" 버튼 클릭 시 다운로드 진행 중 버튼이 비활성화(disabled)되고 스피너가 표시되는지 확인
+- [x] **Happy Path**: PDF 파일 다운로드가 시작되고 파일명이 `invoice-[번호].pdf` 형식인지 확인
+- [x] **Happy Path**: `/api/invoice/[유효한ID]/pdf` GET 요청 시 `Content-Type: application/pdf` 헤더와 함께 200 응답 반환 확인 (Playwright 네트워크 요청 모니터링 활용)
+- [x] **Edge Case**: 존재하지 않는 ID로 `/api/invoice/[invalidID]/pdf` 직접 호출 시 404 응답 반환 확인
+- [x] **Edge Case**: 네트워크 에러 시뮬레이션 후 에러 토스트 알림이 화면에 표시되는지 확인
+- [x] **검증 항목**: 다운로드 완료 후 버튼이 다시 활성화(enabled) 상태로 복원되는지 확인
 
 ### 완료 기준 (Definition of Done)
 
-- [ ] "PDF 다운로드" 버튼 클릭 시 브라우저에서 PDF 파일 다운로드가 시작됨
-- [ ] 다운로드된 PDF에 견적서 번호, 클라이언트명, 항목별 금액, 총액이 올바르게 포함됨
-- [ ] PDF 내 한글 텍스트가 깨지지 않고 정상 렌더링됨
-- [ ] 다운로드 중 버튼이 비활성화되고 로딩 표시가 나타남
-- [ ] 존재하지 않는 견적서 ID로 API 직접 호출 시 404 응답 반환됨
-- [ ] `npm run build` 성공, TypeScript 에러 없음
-- [ ] 테스트 계획의 Playwright MCP 시나리오 전항목 통과
+- [x] "PDF 다운로드" 버튼 클릭 시 브라우저에서 PDF 파일 다운로드가 시작됨
+- [x] 다운로드된 PDF에 견적서 번호, 클라이언트명, 항목별 금액, 총액이 올바르게 포함됨
+- [x] PDF 내 한글 텍스트가 깨지지 않고 정상 렌더링됨 (NotoSansKR 폰트 내장)
+- [x] 다운로드 중 버튼이 비활성화되고 로딩 표시가 나타남
+- [x] 존재하지 않는 견적서 ID로 API 직접 호출 시 404 응답 반환됨
+- [x] `npm run build` 성공, TypeScript 에러 없음
+- [x] 테스트 계획의 Playwright MCP 시나리오 전항목 통과
 
 ### 예상 기간
 
