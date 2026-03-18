@@ -26,7 +26,8 @@
       "env": {
         "DATA_DIR": "/Users/onlyhisson/workspace/claude-study/invoice-web/shrimp_data",
         "TEMPLATES_USE": "en",
-        "ENABLE_GUI": "true"
+        "ENABLE_GUI": "true",
+        "LANGUAGE": "en"
       }
     }
   }
