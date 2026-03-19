@@ -1,7 +1,16 @@
 import { Client } from '@notionhq/client'
-import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import type {
+  PageObjectResponse,
+  QueryDataSourceParameters,
+} from '@notionhq/client/build/src/api-endpoints'
 import { unstable_cache } from 'next/cache'
 import { isNotionNotFound } from '@/lib/utils/error'
+import type {
+  InvoiceFilter,
+  InvoiceListItem,
+  InvoiceListResponse,
+  InvoiceStatus,
+} from '@/types/invoice'
 
 /**
  * 견적서 항목 타입 정의
@@ -239,6 +248,148 @@ export async function getCachedInvoiceByPageId(
     revalidate: 300,
   })
   return cachedFn(pageId)
+}
+
+/**
+ * 데이터베이스 ID에서 첫 번째 데이터 소스 ID를 조회합니다.
+ * Notion SDK v5에서는 databases.query 대신 dataSources.query를 사용합니다.
+ */
+async function getDataSourceId(
+  notion: Client,
+  databaseId: string
+): Promise<string> {
+  const db = await notion.databases.retrieve({ database_id: databaseId })
+  if (db.object !== 'database') {
+    throw new Error(`데이터베이스 ${databaseId}를 찾을 수 없습니다.`)
+  }
+  const fullDb = db as typeof db & {
+    data_sources?: Array<{ id: string; name: string }>
+  }
+  if (!fullDb.data_sources?.length) {
+    throw new Error(`데이터베이스 ${databaseId}에 데이터 소스가 없습니다.`)
+  }
+  return fullDb.data_sources[0].id
+}
+
+/**
+ * Notion 데이터베이스에서 견적서 목록을 조회합니다.
+ * @param filter - 필터 조건 (상태, 검색어, 날짜 범위)
+ * @param cursor - 페이지네이션 커서
+ * @param pageSize - 페이지 크기 (기본 10)
+ * @returns 견적서 목록 응답
+ */
+export async function getInvoiceList(
+  filter: InvoiceFilter = {},
+  cursor?: string,
+  pageSize = 10
+): Promise<InvoiceListResponse> {
+  const notion = createNotionClient()
+  const databaseId = process.env.NOTION_DATABASE_ID
+
+  if (!databaseId) {
+    throw new Error('NOTION_DATABASE_ID 환경변수가 설정되지 않았습니다.')
+  }
+
+  // Notion 필터 조건 조합
+  const filterConditions: object[] = []
+
+  if (filter.status && filter.status !== 'all') {
+    filterConditions.push({
+      property: '상태',
+      select: { equals: filter.status },
+    })
+  }
+
+  if (filter.search) {
+    filterConditions.push({
+      property: '고객명',
+      title: { contains: filter.search },
+    })
+  }
+
+  if (filter.startDate) {
+    filterConditions.push({
+      property: '발행일',
+      date: { on_or_after: filter.startDate },
+    })
+  }
+
+  if (filter.endDate) {
+    filterConditions.push({
+      property: '발행일',
+      date: { on_or_before: filter.endDate },
+    })
+  }
+
+  const queryFilter =
+    filterConditions.length === 1
+      ? filterConditions[0]
+      : filterConditions.length > 1
+        ? { and: filterConditions }
+        : undefined
+
+  // databases.query가 제거된 SDK v5에서는 dataSources.query를 사용
+  const dataSourceId = await getDataSourceId(notion, databaseId)
+
+  const response = await notion.dataSources.query({
+    data_source_id: dataSourceId,
+    filter: queryFilter as QueryDataSourceParameters['filter'],
+    sorts: [{ property: '발행일', direction: 'descending' }],
+    start_cursor: cursor,
+    page_size: pageSize,
+  })
+
+  // 유효한 상태 값 목록
+  const validStatuses: InvoiceStatus[] = ['대기', '승인', '거절']
+
+  const items: InvoiceListItem[] = response.results
+    .filter(isFullPage)
+    .map((page: PageObjectResponse) => {
+      const props = page.properties
+      const statusRaw = extractSelect(props['상태'] ?? props['Status'])
+      const status: InvoiceStatus = validStatuses.includes(
+        statusRaw as InvoiceStatus
+      )
+        ? (statusRaw as InvoiceStatus)
+        : '대기'
+
+      const subtotal = extractNumber(props['소계'] ?? props['Subtotal'])
+      const tax = extractNumber(props['세금'] ?? props['Tax'])
+
+      return {
+        id: page.id,
+        invoiceNumber: extractText(
+          props['견적번호'] ?? props['Invoice Number']
+        ),
+        clientName: extractText(props['고객명'] ?? props['Client Name']),
+        issueDate: extractDate(props['발행일'] ?? props['Issue Date']),
+        status,
+        total: subtotal + tax,
+      } satisfies InvoiceListItem
+    })
+
+  return {
+    items,
+    nextCursor: response.next_cursor,
+    hasMore: response.has_more,
+  }
+}
+
+/**
+ * 캐시가 적용된 견적서 목록 조회 함수 (60초 TTL)
+ */
+export async function getCachedInvoiceList(
+  filter: InvoiceFilter = {},
+  cursor?: string,
+  pageSize = 10
+): Promise<InvoiceListResponse> {
+  const cacheKey = JSON.stringify({ filter, cursor, pageSize })
+  const cachedFn = unstable_cache(
+    () => getInvoiceList(filter, cursor, pageSize),
+    ['admin-invoices', cacheKey],
+    { tags: ['admin-invoices'], revalidate: 60 }
+  )
+  return cachedFn()
 }
 
 /**
