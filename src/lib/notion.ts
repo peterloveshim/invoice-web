@@ -300,7 +300,7 @@ export async function getInvoiceList(
   if (filter.status && filter.status !== 'all') {
     filterConditions.push({
       property: '상태',
-      select: { equals: filter.status },
+      status: { equals: filter.status },
     })
   }
 
