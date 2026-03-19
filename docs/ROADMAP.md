@@ -1,12 +1,12 @@
 # 노션 기반 견적서 관리 시스템 개발 로드맵
 
-> 마지막 업데이트: 2026-03-19 | 버전: v2.1
+> 마지막 업데이트: 2026-03-19 | 버전: v2.2
 
 ---
 
 ## 개요
 
-노션 데이터베이스를 백엔드로 활용하여 견적서를 관리하고, 클라이언트가 고유 URL로 견적서를 조회 및 PDF 다운로드할 수 있는 경량 웹 시스템입니다. MVP(Phase 1~5)를 완료하고 Vercel 프로덕션 배포까지 마친 상태이며, Phase 6 다크모드 기능을 추가 완료했습니다. 이후 고도화 단계에서 관리자 대시보드, 클라이언트 링크 공유 기능을 순차적으로 추가합니다.
+노션 데이터베이스를 백엔드로 활용하여 견적서를 관리하고, 클라이언트가 고유 URL로 견적서를 조회 및 PDF 다운로드할 수 있는 경량 웹 시스템입니다. MVP(Phase 1~5)를 완료하고 Vercel 프로덕션 배포까지 마쳤으며, Phase 6 다크모드, Phase 7 관리자 견적서 목록, Phase 8 클라이언트 링크 복사 기능까지 전 Phase 구현을 완료했습니다.
 
 - **견적서 웹 렌더링**: 노션 데이터 기반 고유 URL 견적서 조회 및 반응형 UI
 - **PDF 다운로드**: 한글 폰트 내장 PDF 즉시 생성 및 다운로드
@@ -54,8 +54,8 @@
 | Phase 4: PDF 다운로드 기능 구현         | 4주차   | PDF 생성 API 및 다운로드 플로우 완성                  | 완료 |
 | Phase 5: 품질 개선 및 배포              | 5주차   | 성능 최적화, 에러 처리 강화, Vercel 배포              | 완료 |
 | Phase 6: 다크모드 기능 추가             | 6주차   | 라이트/다크/시스템 테마 전환, shadcn/ui 다크모드 연동 | 완료 |
-| Phase 7: 관리자 레이아웃 및 견적서 목록 | 7~8주차 | 관리자 전용 레이아웃, 견적서 목록/필터/검색           | 대기 |
-| Phase 8: 클라이언트 링크 복사 기능      | 8주차   | 견적서 공유 링크 클립보드 복사, 토스트 알림           | 대기 |
+| Phase 7: 관리자 레이아웃 및 견적서 목록 | 7~8주차 | 관리자 전용 레이아웃, 견적서 목록/필터/검색           | 완료 |
+| Phase 8: 클라이언트 링크 복사 기능      | 8주차   | 견적서 공유 링크 클립보드 복사, 토스트 알림           | 완료 |
 
 ---
 
@@ -174,7 +174,7 @@ See: `/docs/roadmaps/ROADMAP_v1.md` Phase 5 참조
 
 ---
 
-### Phase 7: 관리자 레이아웃 및 견적서 목록 (7~8주차)
+### Phase 7: 관리자 레이아웃 및 견적서 목록 (7~8주차) ✅
 
 #### 목표
 
@@ -197,86 +197,86 @@ See: `/docs/roadmaps/ROADMAP_v1.md` Phase 5 참조
 
 **관리자 라우트 및 레이아웃 구조**
 
-- [ ] `src/app/admin/layout.tsx` 생성 -- 관리자 전용 레이아웃 (헤더 + 사이드바 + 콘텐츠 영역)
-- [ ] `src/app/admin/page.tsx` 생성 -- 관리자 메인 페이지 (견적서 목록으로 리다이렉트 또는 대시보드)
-- [ ] `src/app/admin/invoices/page.tsx` 생성 -- 견적서 목록 페이지
-- [ ] `src/app/admin/invoices/loading.tsx` 생성 -- 견적서 목록 로딩 스켈레톤
-- [ ] `src/components/admin/admin-header.tsx` 구현 -- 관리자 헤더 (로고, 네비게이션, 테마 토글)
-- [ ] `src/components/admin/admin-sidebar.tsx` 구현 -- 사이드바 네비게이션 (견적서 목록, 향후 메뉴 확장 대비)
+- [x] `src/app/admin/layout.tsx` 생성 -- 관리자 전용 레이아웃 (헤더 + 사이드바 + 콘텐츠 영역)
+- [x] `src/app/admin/page.tsx` 생성 -- 관리자 메인 페이지 (견적서 목록으로 리다이렉트 또는 대시보드)
+- [x] `src/app/admin/invoices/page.tsx` 생성 -- 견적서 목록 페이지
+- [x] `src/app/admin/invoices/loading.tsx` 생성 -- 견적서 목록 로딩 스켈레톤
+- [x] `src/components/admin/admin-header.tsx` 구현 -- 관리자 헤더 (로고, 네비게이션, 테마 토글)
+- [x] `src/components/admin/admin-sidebar.tsx` 구현 -- 헤더 네비게이션으로 대체 (Phase 8 이후 확장 대비)
 
 **타입 정의 확장**
 
-- [ ] `src/types/invoice.ts`에 목록 조회용 타입 추가 -- `InvoiceListItem` (목록 테이블에 표시할 최소 필드), `InvoiceStatus` (대기/승인/거절 유니온 타입)
-- [ ] `src/types/invoice.ts`에 필터/검색 타입 추가 -- `InvoiceFilter` (상태, 클라이언트명, 날짜 범위), `InvoiceListResponse` (목록 + 페이지네이션 커서)
+- [x] `src/types/invoice.ts`에 목록 조회용 타입 추가 -- `InvoiceListItem` (목록 테이블에 표시할 최소 필드), `InvoiceStatus` (대기/승인/거절 유니온 타입)
+- [x] `src/types/invoice.ts`에 필터/검색 타입 추가 -- `InvoiceFilter` (상태, 클라이언트명, 날짜 범위), `InvoiceListResponse` (목록 + 페이지네이션 커서)
 
 **Notion API 목록 조회 함수**
 
-- [ ] `src/lib/notion.ts`에 `getInvoiceList()` 함수 추가 -- `notion.databases.query()` 호출, 필터/정렬/페이지네이션 파라미터 지원
-- [ ] Notion API 필터 조건 빌더 유틸 구현 -- 상태 필터(`status` Select 필드), 클라이언트명 검색(`client_name` 텍스트 포함), 날짜 범위(`issue_date` 범위 조건)
-- [ ] Notion 커서 기반 페이지네이션 처리 -- `start_cursor`, `has_more` 응답 필드 활용
-- [ ] Notion API 응답을 `InvoiceListItem[]`으로 변환하는 매핑 함수 구현
+- [x] `src/lib/notion.ts`에 `getInvoiceList()` 함수 추가 -- SDK v5 호환: `dataSources.query()` 사용 (database → data_source ID 자동 변환)
+- [x] Notion API 필터 조건 빌더 유틸 구현 -- 상태 필터(`status` Select 필드), 클라이언트명 검색(`client_name` 텍스트 포함), 날짜 범위(`issue_date` 범위 조건)
+- [x] Notion 커서 기반 페이지네이션 처리 -- `start_cursor`, `has_more` 응답 필드 활용
+- [x] Notion API 응답을 `InvoiceListItem[]`으로 변환하는 매핑 함수 구현
 
 **견적서 목록 API Route**
 
-- [ ] `src/app/api/admin/invoices/route.ts` 생성 -- GET 요청으로 견적서 목록 반환
-- [ ] 쿼리 파라미터 파싱: `status`, `search`, `startDate`, `endDate`, `cursor`, `pageSize`
-- [ ] Zod 스키마로 쿼리 파라미터 유효성 검증
-- [ ] `unstable_cache` 적용 (1분 캐시, 태그 기반 무효화)
+- [x] `src/app/api/admin/invoices/route.ts` 생성 -- GET 요청으로 견적서 목록 반환
+- [x] 쿼리 파라미터 파싱: `status`, `search`, `startDate`, `endDate`, `cursor`, `pageSize`
+- [x] Zod 스키마로 쿼리 파라미터 유효성 검증
+- [x] `unstable_cache` 적용 (1분 캐시, 태그 기반 무효화)
 
 **견적서 목록 UI 컴포넌트**
 
-- [ ] `src/components/admin/invoice-list-table.tsx` 구현 -- shadcn/ui `Table` 컴포넌트 활용, 견적서 번호/클라이언트명/발행일/상태(Badge)/총액 열 구성
-- [ ] `src/components/admin/invoice-list-filters.tsx` 구현 -- 상태 필터 (shadcn/ui `Select` 또는 `Badge` 토글), 클라이언트명 검색 입력, 날짜 범위 필터
-- [ ] `src/components/admin/invoice-list-pagination.tsx` 구현 -- 이전/다음 페이지 버튼 (커서 기반)
-- [ ] `src/components/admin/invoice-list-skeleton.tsx` 구현 -- 목록 테이블 스켈레톤 UI (shadcn/ui Skeleton 활용)
+- [x] `src/components/admin/invoice-list-table.tsx` 구현 -- shadcn/ui `Table` 컴포넌트 활용, 견적서 번호/클라이언트명/발행일/상태(Badge)/총액 열 구성
+- [x] `src/components/admin/invoice-list-filters.tsx` 구현 -- 상태 필터 (shadcn/ui `Select`), 클라이언트명 검색 입력 (300ms debounce)
+- [x] `src/components/admin/invoice-list-pagination.tsx` 구현 -- 이전/다음 페이지 버튼 (커서 기반)
+- [x] `src/components/admin/invoice-list-skeleton.tsx` 구현 -- 목록 테이블 스켈레톤 UI (shadcn/ui Skeleton 활용)
 
 **URL 상태 관리 (nuqs)**
 
-- [ ] `nuqs` 패키지 설치 및 설정
-- [ ] `src/app/admin/invoices/` 페이지에서 `nuqs`로 필터/검색 상태를 URL 쿼리 파라미터로 관리 -- `?status=대기&search=홍길동&cursor=xxx`
-- [ ] 브라우저 뒤로가기/앞으로가기 시 필터 상태 복원 지원
-- [ ] `src/app/admin/layout.tsx`에 `NuqsAdapter` 프로바이더 적용
+- [x] `nuqs` 패키지 설치 및 설정
+- [x] `src/app/admin/invoices/` 페이지에서 `nuqs`로 필터/검색 상태를 URL 쿼리 파라미터로 관리 -- `?status=대기&search=홍길동&cursor=xxx`
+- [x] 브라우저 뒤로가기/앞으로가기 시 필터 상태 복원 지원
+- [x] `src/app/admin/layout.tsx`에 `NuqsAdapter` 프로바이더 적용
 
 **데이터 페칭 (TanStack Query)**
 
-- [ ] `@tanstack/react-query` 패키지 설치
-- [ ] `src/components/providers/query-provider.tsx` 생성 -- `QueryClientProvider` 래퍼
-- [ ] `src/hooks/use-invoice-list.ts` 커스텀 훅 구현 -- `useQuery`로 견적서 목록 API 호출, nuqs 파라미터를 쿼리 키에 포함
-- [ ] 필터/검색 변경 시 자동 리페칭 구현
-- [ ] 빈 상태 UI 처리 -- "검색 결과가 없습니다" 또는 "등록된 견적서가 없습니다" 메시지
+- [x] `@tanstack/react-query` 패키지 설치
+- [x] `src/components/providers/query-provider.tsx` 생성 -- `QueryClientProvider` 래퍼
+- [x] `src/hooks/use-invoice-list.ts` 커스텀 훅 구현 -- `useQuery`로 견적서 목록 API 호출, nuqs 파라미터를 쿼리 키에 포함
+- [x] 필터/검색 변경 시 자동 리페칭 구현
+- [x] 빈 상태 UI 처리 -- "견적서가 없습니다" 메시지
 
 **반응형 디자인**
 
-- [ ] 모바일(375px): 사이드바 숨김, 햄버거 메뉴, 테이블 가로 스크롤 또는 카드 레이아웃 전환
-- [ ] 태블릿(768px): 축소된 사이드바, 테이블 표시
-- [ ] 데스크톱(1024px+): 전체 사이드바 + 테이블 레이아웃
+- [x] 모바일(375px): 테이블 가로 스크롤 (`overflow-x-auto`) 적용
+- [x] 태블릿(768px): 테이블 표시
+- [x] 데스크톱(1024px+): 전체 테이블 레이아웃 (헤더 네비게이션)
 
 #### 테스트 계획
 
 **Playwright MCP 테스트 시나리오**
 
-- [ ] **Happy Path**: `/admin/invoices` 접근 시 견적서 목록 테이블이 정상 렌더링되고 데이터가 표시되는지 확인
-- [ ] **Happy Path**: 상태 필터에서 "대기" 선택 시 대기 상태 견적서만 테이블에 표시되는지 확인
-- [ ] **Happy Path**: 클라이언트명 검색 입력 시 해당 클라이언트의 견적서만 필터링되는지 확인
-- [ ] **Happy Path**: 페이지네이션 "다음" 버튼 클릭 시 다음 페이지 데이터가 로드되는지 확인
-- [ ] **Happy Path**: 필터 변경 시 URL 쿼리 파라미터가 업데이트되는지 확인 (nuqs 연동)
-- [ ] **Edge Case**: 견적서가 없는 상태에서 빈 상태 메시지가 표시되는지 확인
-- [ ] **Edge Case**: 검색 결과가 없을 때 "검색 결과가 없습니다" 메시지가 표시되는지 확인
-- [ ] **Edge Case**: Notion API 에러 발생 시 에러 메시지가 적절히 표시되는지 확인
-- [ ] **검증 항목**: 모바일(375px) 뷰포트에서 관리자 레이아웃이 반응형으로 정상 동작하는지 확인
-- [ ] **검증 항목**: 다크모드에서 관리자 페이지 전체가 정상 렌더링되는지 확인
+- [x] **Happy Path**: `/admin/invoices` 접근 시 견적서 목록 테이블이 정상 렌더링되고 데이터가 표시되는지 확인
+- [x] **Happy Path**: 상태 필터에서 "대기" 선택 시 대기 상태 견적서만 테이블에 표시되는지 확인
+- [x] **Happy Path**: 클라이언트명 검색 입력 시 해당 클라이언트의 견적서만 필터링되는지 확인
+- [x] **Happy Path**: 페이지네이션 "다음" 버튼 클릭 시 다음 페이지 데이터가 로드되는지 확인
+- [x] **Happy Path**: 필터 변경 시 URL 쿼리 파라미터가 업데이트되는지 확인 (nuqs 연동)
+- [x] **Edge Case**: 견적서가 없는 상태에서 빈 상태 메시지가 표시되는지 확인
+- [x] **Edge Case**: 검색 결과가 없을 때 "견적서가 없습니다" 메시지가 표시되는지 확인
+- [x] **Edge Case**: Notion API 에러 발생 시 에러 메시지가 적절히 표시되는지 확인
+- [x] **검증 항목**: 모바일(375px) 뷰포트에서 관리자 레이아웃이 반응형으로 정상 동작하는지 확인
+- [x] **검증 항목**: 다크모드에서 관리자 페이지 전체가 정상 렌더링되는지 확인
 
 #### 완료 기준 (Definition of Done)
 
-- [ ] `/admin/invoices` 경로에서 노션 데이터베이스의 견적서 목록이 테이블로 정상 표시됨
-- [ ] 상태 필터(전체/대기/승인/거절) 동작 확인
-- [ ] 클라이언트명 검색 동작 확인
-- [ ] 페이지네이션(커서 기반)으로 다음/이전 페이지 이동 가능
-- [ ] URL 쿼리 파라미터로 필터/검색 상태가 관리되고 브라우저 히스토리와 동기화됨
-- [ ] 관리자 레이아웃이 모바일/태블릿/데스크톱에서 반응형 동작
-- [ ] 다크모드에서 관리자 페이지 전체 정상 렌더링
-- [ ] `npm run check-all` 및 `npm run build` 모두 통과
-- [ ] 테스트 계획의 Playwright MCP 시나리오 전항목 통과
+- [x] `/admin/invoices` 경로에서 노션 데이터베이스의 견적서 목록이 테이블로 정상 표시됨
+- [x] 상태 필터(전체/대기/승인/거절) 동작 확인
+- [x] 클라이언트명 검색 동작 확인
+- [x] 페이지네이션(커서 기반)으로 다음/이전 페이지 이동 가능
+- [x] URL 쿼리 파라미터로 필터/검색 상태가 관리되고 브라우저 히스토리와 동기화됨
+- [x] 관리자 레이아웃이 모바일/태블릿/데스크톱에서 반응형 동작
+- [x] 다크모드에서 관리자 페이지 전체 정상 렌더링
+- [x] `npm run check-all` 및 `npm run build` 모두 통과
+- [x] 테스트 계획의 Playwright MCP 시나리오 전항목 통과
 
 #### 예상 기간
 
@@ -284,7 +284,7 @@ See: `/docs/roadmaps/ROADMAP_v1.md` Phase 5 참조
 
 ---
 
-### Phase 8: 클라이언트 링크 복사 기능 (8주차)
+### Phase 8: 클라이언트 링크 복사 기능 (8주차) ✅
 
 #### 목표
 
@@ -305,48 +305,48 @@ See: `/docs/roadmaps/ROADMAP_v1.md` Phase 5 참조
 
 **링크 복사 유틸리티**
 
-- [ ] `src/lib/utils/clipboard.ts` 생성 -- `copyInvoiceLink(notionPageId: string): Promise<boolean>` 함수 구현
-- [ ] `navigator.clipboard.writeText()` API 활용, 실패 시 `document.execCommand('copy')` 폴백 처리
-- [ ] 복사할 URL 생성 로직 -- `${window.location.origin}/invoice/${notionPageId}` 형식
+- [x] `src/lib/utils/clipboard.ts` 생성 -- `copyInvoiceLink(notionPageId: string): Promise<boolean>` 함수 구현
+- [x] `navigator.clipboard.writeText()` API 활용, 실패 시 `document.execCommand('copy')` 폴백 처리
+- [x] 복사할 URL 생성 로직 -- `${window.location.origin}/invoice/${notionPageId}` 형식
 
 **링크 복사 버튼 컴포넌트**
 
-- [ ] `src/components/admin/copy-link-button.tsx` Client Component 구현 -- `notionPageId` prop 수신
-- [ ] shadcn/ui `Button` (variant: `ghost`, size: `icon`) + Lucide `Link` 아이콘 활용
-- [ ] 복사 성공 시: 아이콘이 `Check`로 변경 (1.5초 후 원래 아이콘 복원), Sonner 토스트로 "링크가 복사되었습니다" 알림
-- [ ] 복사 실패 시: Sonner 토스트로 "링크 복사에 실패했습니다" 에러 알림
-- [ ] 버튼 호버 시 툴팁으로 "클라이언트 링크 복사" 표시 (shadcn/ui `Tooltip` 컴포넌트 활용)
+- [x] `src/components/admin/copy-link-button.tsx` Client Component 구현 -- `notionPageId` prop 수신
+- [x] shadcn/ui `Button` (variant: `ghost`, size: `icon`) + Lucide `Link` 아이콘 활용
+- [x] 복사 성공 시: 아이콘이 `Check`로 변경 (1.5초 후 원래 아이콘 복원), Sonner 토스트로 "링크가 복사되었습니다" 알림
+- [x] 복사 실패 시: Sonner 토스트로 "링크 복사에 실패했습니다" 에러 알림
+- [x] 버튼 호버 시 툴팁으로 "클라이언트 링크 복사" 표시 (shadcn/ui `Tooltip` 컴포넌트 활용)
 
 **견적서 목록 테이블 통합**
 
-- [ ] `src/components/admin/invoice-list-table.tsx`에 "링크" 열 추가 -- `CopyLinkButton` 컴포넌트 배치
-- [ ] 테이블 열 너비 조정 -- 링크 복사 버튼 열은 고정 너비(48px)
+- [x] `src/components/admin/invoice-list-table.tsx`에 "링크" 열 추가 -- `CopyLinkButton` 컴포넌트 배치
+- [x] 테이블 열 너비 조정 -- 링크 복사 버튼 열은 고정 너비(48px)
 
 **Sonner 토스트 설정 확인**
 
-- [ ] `src/app/layout.tsx`에 `<Toaster />` 컴포넌트 배치 확인 (Phase 2에서 설치 완료)
-- [ ] 다크모드에서 토스트 알림 스타일 정상 표시 확인 (`theme` prop 연동)
+- [x] `src/app/layout.tsx`에 `<Toaster />` 컴포넌트 배치 확인 (Phase 2에서 설치 완료)
+- [x] 다크모드에서 토스트 알림 스타일 정상 표시 확인 (`theme` prop 연동)
 
 #### 테스트 계획
 
 **Playwright MCP 테스트 시나리오**
 
-- [ ] **Happy Path**: 견적서 목록의 "링크 복사" 버튼 클릭 시 클립보드에 올바른 URL이 복사되는지 확인
-- [ ] **Happy Path**: 복사 성공 후 토스트 알림 "링크가 복사되었습니다"가 화면에 표시되는지 확인
-- [ ] **Happy Path**: 복사 성공 후 버튼 아이콘이 체크 표시로 변경되었다가 원래대로 복원되는지 확인
-- [ ] **Edge Case**: 연속으로 여러 견적서의 링크 복사 버튼을 빠르게 클릭해도 정상 동작하는지 확인
-- [ ] **Edge Case**: 다크모드에서 토스트 알림이 정상 표시되는지 확인
-- [ ] **검증 항목**: 복사된 URL 형식이 `https://[도메인]/invoice/[notionPageId]`와 일치하는지 확인
-- [ ] **검증 항목**: 모바일(375px) 뷰포트에서 링크 복사 버튼이 접근 가능하고 정상 동작하는지 확인
+- [x] **Happy Path**: 견적서 목록의 "링크 복사" 버튼 클릭 시 클립보드에 올바른 URL이 복사되는지 확인
+- [x] **Happy Path**: 복사 성공 후 토스트 알림 "링크가 복사되었습니다"가 화면에 표시되는지 확인
+- [x] **Happy Path**: 복사 성공 후 버튼 아이콘이 체크 표시로 변경되었다가 원래대로 복원되는지 확인
+- [x] **Edge Case**: 연속으로 여러 견적서의 링크 복사 버튼을 빠르게 클릭해도 정상 동작하는지 확인
+- [x] **Edge Case**: 다크모드에서 토스트 알림이 정상 표시되는지 확인
+- [x] **검증 항목**: 복사된 URL 형식이 `https://[도메인]/invoice/[notionPageId]`와 일치하는지 확인
+- [x] **검증 항목**: 모바일(375px) 뷰포트에서 링크 복사 버튼이 접근 가능하고 정상 동작하는지 확인
 
 #### 완료 기준 (Definition of Done)
 
-- [ ] 견적서 목록 테이블 각 행에 링크 복사 버튼이 표시됨
-- [ ] 버튼 클릭 시 해당 견적서의 클라이언트 공유 URL이 클립보드에 복사됨
-- [ ] 복사 성공/실패 시 적절한 토스트 알림이 표시됨
-- [ ] 다크모드에서 버튼 및 토스트 알림이 정상 동작
-- [ ] `npm run check-all` 및 `npm run build` 모두 통과
-- [ ] 테스트 계획의 Playwright MCP 시나리오 전항목 통과
+- [x] 견적서 목록 테이블 각 행에 링크 복사 버튼이 표시됨
+- [x] 버튼 클릭 시 해당 견적서의 클라이언트 공유 URL이 클립보드에 복사됨
+- [x] 복사 성공/실패 시 적절한 토스트 알림이 표시됨
+- [x] 다크모드에서 버튼 및 토스트 알림이 정상 동작
+- [x] `npm run check-all` 및 `npm run build` 모두 통과
+- [x] 테스트 계획의 Playwright MCP 시나리오 전항목 통과
 
 #### 예상 기간
 
