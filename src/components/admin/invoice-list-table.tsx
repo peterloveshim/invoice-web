@@ -1,5 +1,7 @@
 // 견적서 목록 테이블 컴포넌트
 // 견적서 목록을 테이블 형태로 표시하며 링크 복사 기능을 포함한다
+import { CopyLinkButton } from '@/components/admin/copy-link-button'
+import { Badge } from '@/components/ui/badge'
 import {
   Table,
   TableBody,
@@ -8,8 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import { CopyLinkButton } from '@/components/admin/copy-link-button'
 import { formatCurrency, formatDate } from '@/lib/utils/format'
 import type { InvoiceListItem, InvoiceStatus } from '@/types/invoice'
 
@@ -17,14 +17,11 @@ interface InvoiceListTableProps {
   items: InvoiceListItem[]
 }
 
-/** 상태별 Badge 스타일 매핑 */
-const statusVariantMap: Record<
-  InvoiceStatus,
-  'default' | 'secondary' | 'destructive' | 'outline'
-> = {
-  대기: 'secondary',
-  승인: 'default',
-  거절: 'destructive',
+/** 상태별 Badge 클래스 매핑 */
+const statusClassMap: Record<InvoiceStatus, string> = {
+  대기: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+  승인: 'bg-green-500 text-white hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700',
+  거절: 'bg-destructive text-destructive-foreground hover:bg-destructive/80',
 }
 
 export function InvoiceListTable({ items }: InvoiceListTableProps) {
@@ -71,7 +68,7 @@ export function InvoiceListTable({ items }: InvoiceListTableProps) {
                   {formatDate(item.issueDate)}
                 </TableCell>
                 <TableCell>
-                  <Badge variant={statusVariantMap[item.status]}>
+                  <Badge className={statusClassMap[item.status]}>
                     {item.status}
                   </Badge>
                 </TableCell>

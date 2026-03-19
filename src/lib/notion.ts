@@ -1,9 +1,3 @@
-import { Client } from '@notionhq/client'
-import type {
-  PageObjectResponse,
-  QueryDataSourceParameters,
-} from '@notionhq/client/build/src/api-endpoints'
-import { unstable_cache } from 'next/cache'
 import { isNotionNotFound } from '@/lib/utils/error'
 import type {
   InvoiceFilter,
@@ -11,6 +5,12 @@ import type {
   InvoiceListResponse,
   InvoiceStatus,
 } from '@/types/invoice'
+import { Client } from '@notionhq/client'
+import type {
+  PageObjectResponse,
+  QueryDataSourceParameters,
+} from '@notionhq/client/build/src/api-endpoints'
+import { unstable_cache } from 'next/cache'
 
 /**
  * 견적서 항목 타입 정의
@@ -111,6 +111,10 @@ function extractSelect(
   if (!prop) return ''
   if (prop.type === 'select' && prop.select) {
     return prop.select.name
+  }
+  // Notion의 Status 필드 타입 처리 (select와 별도 타입)
+  if (prop.type === 'status' && prop.status) {
+    return prop.status.name
   }
   return ''
 }
