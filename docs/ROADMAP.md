@@ -1,6 +1,6 @@
 # 노션 기반 견적서 관리 시스템 개발 로드맵
 
-> 마지막 업데이트: 2026-03-19 | 버전: v2.2
+> 마지막 업데이트: 2026-03-19 | 버전: v2.3
 
 ---
 
@@ -351,6 +351,26 @@ See: `/docs/roadmaps/ROADMAP_v1.md` Phase 5 참조
 #### 예상 기간
 
 2일 (8주차)
+
+---
+
+## 핫픽스 / 개선 사항
+
+### [v2.3] 2026-03-19
+
+#### 버그 수정
+
+- **Notion Status 필드 타입 미지원 버그 수정** (`src/lib/notion.ts`)
+  - 기존 `extractSelect()` 함수가 Notion의 `select` 타입만 처리하고 `status` 타입을 무시하여 상태값이 항상 기본값(`대기`)으로 설정되는 문제 수정
+  - `status` 타입 분기 추가: `prop.type === 'status' && prop.status` 처리
+  - 영향 범위: `getInvoiceByPageId()` (견적서 상세), `getInvoiceList()` (견적서 목록) 양쪽 모두 수정
+
+#### UI 개선
+
+- **승인 상태 Badge 색상 개선** (`src/components/admin/invoice-list-table.tsx`)
+  - 기존 `default` variant(회색 계열)에서 green 계열 커스텀 클래스로 변경
+  - 라이트모드: `bg-green-500`, 다크모드: `dark:bg-green-600`
+  - 상태별 색상 체계: 대기(회색) / 승인(초록) / 거절(빨강)
 
 ---
 
