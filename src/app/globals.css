@@ -126,9 +126,10 @@
   [data-print-hide] {
     display: none !important;
   }
-  /* 인쇄 배경 최적화 */
+  /* 인쇄 배경 최적화 및 다크모드 비활성화 */
   body {
     background: white !important;
+    color-scheme: light;
   }
   /* 그림자 제거 */
   * {

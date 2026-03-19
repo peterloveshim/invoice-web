@@ -52,7 +52,7 @@ export default async function Page({ params }: InvoicePageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 dark:bg-neutral-900">
       <InvoicePageComponent invoice={invoice} />
     </main>
   )

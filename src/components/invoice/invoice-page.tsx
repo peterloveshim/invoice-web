@@ -43,7 +43,7 @@ export function InvoicePage({ invoice }: InvoicePageProps) {
         </div>
 
         {/* 당사자 정보 카드: 발급처, 수신처 */}
-        <Card className="rounded-none border border-neutral-200 shadow-none">
+        <Card className="rounded-none border border-neutral-200 shadow-none dark:border-neutral-700">
           <CardContent>
             <InvoiceParties
               clientName={invoice.clientName}
@@ -53,7 +53,7 @@ export function InvoicePage({ invoice }: InvoicePageProps) {
         </Card>
 
         {/* 견적 항목 및 합계 카드 */}
-        <Card className="rounded-none border border-neutral-200 shadow-none">
+        <Card className="rounded-none border border-neutral-200 shadow-none dark:border-neutral-700">
           <CardContent className="space-y-6">
             {/* 견적 항목 테이블 */}
             <InvoiceItemsTable items={invoice.items} />

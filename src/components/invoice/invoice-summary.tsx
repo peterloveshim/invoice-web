@@ -30,13 +30,13 @@ export function InvoiceSummary({
       <div className="flex justify-end">
         <div className="w-full max-w-xs space-y-2">
           {/* 소계 행 */}
-          <div className="flex justify-between text-sm text-neutral-500">
+          <div className="flex justify-between text-sm text-neutral-500 dark:text-neutral-400">
             <span>소계</span>
             <span>{formatCurrency(subtotal)}</span>
           </div>
 
           {/* 세금 행 */}
-          <div className="flex justify-between text-sm text-neutral-500">
+          <div className="flex justify-between text-sm text-neutral-500 dark:text-neutral-400">
             <span>세금 (VAT)</span>
             <span>{formatCurrency(tax)}</span>
           </div>
@@ -45,7 +45,7 @@ export function InvoiceSummary({
           <Separator />
 
           {/* 합계 행 */}
-          <div className="flex justify-between text-lg font-black text-neutral-900">
+          <div className="flex justify-between text-lg font-black text-neutral-900 dark:text-neutral-100">
             <span>합계</span>
             <span>{formatCurrency(total)}</span>
           </div>
@@ -54,11 +54,11 @@ export function InvoiceSummary({
 
       {/* 비고 섹션 - notes가 있을 경우에만 표시 */}
       {notes && (
-        <div className="rounded-none border border-neutral-200 bg-neutral-50 p-4">
-          <h3 className="text-xs tracking-widest text-neutral-500 uppercase">
+        <div className="rounded-none border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-700 dark:bg-neutral-800">
+          <h3 className="text-xs tracking-widest text-neutral-500 uppercase dark:text-neutral-400">
             비고
           </h3>
-          <p className="mt-1 text-sm whitespace-pre-wrap text-gray-600">
+          <p className="mt-1 text-sm whitespace-pre-wrap text-gray-600 dark:text-neutral-300">
             {notes}
           </p>
         </div>

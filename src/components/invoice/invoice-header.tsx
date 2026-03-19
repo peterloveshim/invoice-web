@@ -46,7 +46,7 @@ export function InvoiceHeader({
     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
       {/* 좌측: 견적서 제목 및 번호 */}
       <div>
-        <h1 className="text-4xl font-black tracking-tight text-neutral-900">
+        <h1 className="text-4xl font-black tracking-tight text-neutral-900 dark:text-neutral-100">
           견적서
         </h1>
         <p className="mt-2 font-mono text-sm tracking-widest text-neutral-400 uppercase">
@@ -71,7 +71,7 @@ export function InvoiceHeader({
             <dt className="text-xs tracking-widest text-neutral-400 uppercase">
               발행일
             </dt>
-            <dd className="font-medium text-neutral-700">
+            <dd className="font-medium text-neutral-700 dark:text-neutral-300">
               {formatDate(issueDate)}
             </dd>
           </div>
@@ -81,7 +81,7 @@ export function InvoiceHeader({
             <dt className="text-xs tracking-widest text-neutral-400 uppercase">
               유효기간
             </dt>
-            <dd className="font-medium text-neutral-700">
+            <dd className="font-medium text-neutral-700 dark:text-neutral-300">
               {formatDate(dueDate)}
             </dd>
           </div>

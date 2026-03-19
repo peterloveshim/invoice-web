@@ -20,24 +20,28 @@ export function InvoiceParties({
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
       {/* 발급처 정보 */}
-      <div className="border-l-2 border-neutral-900 pl-3">
+      <div className="border-l-2 border-neutral-900 pl-3 dark:border-neutral-100">
         <h2 className="text-xs tracking-widest text-neutral-400 uppercase">
           발급처
         </h2>
-        <p className="mt-1 text-base font-bold text-neutral-900">귀하</p>
+        <p className="mt-1 text-base font-bold text-neutral-900 dark:text-neutral-100">
+          귀하
+        </p>
       </div>
 
       {/* 수신처 정보 */}
-      <div className="border-l-2 border-neutral-900 pl-3">
+      <div className="border-l-2 border-neutral-900 pl-3 dark:border-neutral-100">
         <h2 className="text-xs tracking-widest text-neutral-400 uppercase">
           수신처
         </h2>
-        <p className="mt-1 text-base font-bold text-neutral-900">
+        <p className="mt-1 text-base font-bold text-neutral-900 dark:text-neutral-100">
           {clientName}
         </p>
         {/* 이메일이 있을 경우에만 표시 */}
         {clientEmail && (
-          <p className="text-sm text-neutral-500">{clientEmail}</p>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+            {clientEmail}
+          </p>
         )}
       </div>
     </div>

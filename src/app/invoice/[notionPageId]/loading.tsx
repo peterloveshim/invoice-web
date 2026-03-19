@@ -9,7 +9,7 @@ import { InvoiceSkeleton } from '@/components/common/invoice-skeleton'
  */
 export default function Loading() {
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 dark:bg-neutral-900">
       <InvoiceLayout>
         <InvoiceSkeleton />
       </InvoiceLayout>
